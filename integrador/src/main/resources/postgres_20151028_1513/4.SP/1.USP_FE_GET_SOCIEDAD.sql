@@ -1,0 +1,21 @@
+﻿
+-- ok
+
+CREATE OR REPLACE FUNCTION USP_FE_GET_SOCIEDAD(
+pRuc SOCIEDAD.ruc%TYPE
+)
+RETURNS SOCIEDAD AS $$
+DECLARE
+ sociedad SOCIEDAD%ROWTYPE;
+ vCount INTEGER;
+BEGIN
+  SELECT COUNT(1) INTO vCount FROM SOCIEDAD s WHERE s.ruc = pRuc;
+  IF vCount = 0 THEN
+     RAISE EXCEPTION 'El RUC % no se encuentra configurado.',pRuc  USING ERRCODE = '00106';
+  END IF;
+  
+ SELECT s.* INTO sociedad FROM SOCIEDAD s WHERE s.ruc = pRuc;
+ RETURN sociedad;
+END
+$$
+LANGUAGE plpgsql;

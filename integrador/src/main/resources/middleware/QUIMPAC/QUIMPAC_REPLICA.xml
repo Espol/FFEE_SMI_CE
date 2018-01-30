@@ -1,0 +1,1632 @@
+<channel version="3.0.3">
+  <id>9ecf666f-288f-4615-851a-66919480b691</id>
+  <nextMetaDataId>3</nextMetaDataId>
+  <name>QUIMPAC_REPLICA</name>
+  <description></description>
+  <enabled>true</enabled>
+  <lastModified>
+    <time>1448116670301</time>
+    <timezone>America/Bogota</timezone>
+  </lastModified>
+  <revision>1</revision>
+  <sourceConnector version="3.0.3">
+    <metaDataId>0</metaDataId>
+    <name>sourceConnector</name>
+    <properties class="com.mirth.connect.connectors.jdbc.DatabaseReceiverProperties" version="3.0.3">
+      <pollConnectorProperties version="3.0.3">
+        <pollingType>interval</pollingType>
+        <pollingHour>0</pollingHour>
+        <pollingMinute>0</pollingMinute>
+        <pollingFrequency>5000</pollingFrequency>
+      </pollConnectorProperties>
+      <responseConnectorProperties version="3.0.3">
+        <responseVariable>None</responseVariable>
+        <defaultQueueOnResponses>
+          <string>None</string>
+          <string>Auto-generate (Before processing)</string>
+        </defaultQueueOnResponses>
+        <defaultQueueOffResponses>
+          <string>None</string>
+          <string>Auto-generate (Before processing)</string>
+          <string>Auto-generate (After source transformer)</string>
+          <string>Auto-generate (Destinations completed)</string>
+          <string>Postprocessor</string>
+        </defaultQueueOffResponses>
+        <respondAfterProcessing>true</respondAfterProcessing>
+      </responseConnectorProperties>
+      <driver>org.postgresql.Driver</driver>
+      <url>jdbc:postgresql://localhost:5432/ecuasal_qas_2</url>
+      <username>postgres</username>
+      <password>asdf</password>
+      <select>
+SELECT envio.id_envio,
+    documento.id_sociedad,
+    documento.id_periodo,
+    documento.secuencia,
+    sociedad.ruc,
+    documento.serie_correlativo AS nro_sri,
+    documento.numero_sap AS doc_referencia,
+    CAST(documento.fecha_emision AS timestamp) as fecha_emision,
+    documento.tipo_documento AS tipo_doc,
+    documento.clase_documento AS tipo_doc_referencia,
+    documento.clave_acceso,
+    documento.nro_autorizacion,
+    documento.fecha_autorizacion,
+    1 AS contabilizado,
+    0 AS anulado,
+    &apos;&lt;xml&gt;&lt;/xml&gt;&apos; AS xml,
+    documento.xml AS path_xml,
+    documento.pdf AS path_pdf,
+    documento.escenario,
+    CASE documento.estado_sri
+             WHEN &apos;NR&apos; THEN &apos;INCONSISTENTE&apos;
+    WHEN &apos;AU&apos; THEN &apos;AUTORIZADO&apos;
+    WHEN &apos;RE&apos; THEN &apos;RECHAZADO&apos;
+    ELSE &apos;&apos; END as estado,
+    documento.ack_sri AS log,
+    --IIF(documento.estado_sri = &apos;AU&apos;, 1, 0) as pdf,
+    CASE WHEN documento.estado_sri = &apos;AU&apos; THEN 1 ELSE 0 END AS pdf,
+    CASE WHEN documento.envio_mail IS NULL OR documento.envio_mail &lt; 1 THEN 0 ELSE documento.envio_mail END AS mail,    
+    1 AS ultimo,
+    1 AS recepcionado,
+    --IIF(documento.estado_sri = &apos;AU&apos;, 1, 0) AS autorizado,
+    CASE WHEN documento.estado_sri = &apos;AU&apos; THEN 1 ELSE 0 END AS autorizado,
+    documento.usuario_sap AS usuario,
+    documento.terminal AS terminal,
+    COALESCE(documento.mail_destino, &apos;&apos;) AS email_destino,
+    documento.fecha_registro,
+    1 AS tipo_emision,
+    &apos;&apos; AS observacion,
+    &apos;&lt;xml&gt;&lt;/xml&gt;&apos; AS documento_xml,
+    documento.mensaje,
+    &apos;&apos; AS nombre_documento,
+    0 AS notificacion,
+    documento.importe_total AS monto_total,
+    documento.codigo_cliente AS interlocutor,
+    --IIF(documento.tipo_documento = &apos;07&apos;, &apos;P&apos;, &apos;C&apos;) AS tipo,
+    CASE WHEN documento.tipo_documento = &apos;07&apos; THEN &apos;P&apos; ELSE &apos;C&apos; END AS tipo,
+    &apos;1000&apos; AS sociedad,
+    documento.nombre_cliente AS razon_social,
+documento.esquema_proc AS esquema,
+documento.ruc_cliente AS ruc_cliente
+
+FROM ENVIO_DOCUMENTO envio
+INNER JOIN DOCUMENTO documento ON envio.id_sociedad = documento.id_sociedad
+          AND envio.id_periodo = documento.id_periodo 
+          AND envio.secuencia  = documento.secuencia
+INNER JOIN SOCIEDAD sociedad ON documento.id_sociedad = sociedad.id_sociedad
+WHERE envio.destino = &apos;MO&apos;
+  AND envio.estado = &apos;PE&apos;
+LIMIT 80 ;
+</select>
+      <update>UPDATE ENVIO_DOCUMENTO SET 
+       estado = &apos;TE&apos; ,
+       intento = COALESCE(intento, 0) + 1,
+       fecha_envio = CURRENT_TIMESTAMP
+WHERE id_envio = ${id_envio} 
+  AND id_periodo = ${id_periodo}
+  AND id_sociedad = ${id_sociedad}
+  AND secuencia = ${secuencia};</update>
+      <useScript>false</useScript>
+      <cacheResults>true</cacheResults>
+      <keepConnectionOpen>true</keepConnectionOpen>
+      <updateMode>3</updateMode>
+      <retryCount>3</retryCount>
+      <retryInterval>10000</retryInterval>
+      <fetchSize>1000</fetchSize>
+    </properties>
+    <transformer version="3.0.3">
+      <steps>
+        <step>
+          <sequenceNumber>0</sequenceNumber>
+          <name>path_pdf</name>
+          <script>var mapping;try { mapping = msg[&apos;path_pdf&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;path_pdf&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>path_pdf</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;path_pdf&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>1</sequenceNumber>
+          <name>ruc</name>
+          <script>var mapping;try { mapping = msg[&apos;ruc&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;ruc&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>ruc</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;ruc&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>2</sequenceNumber>
+          <name>estado</name>
+          <script>var mapping;try { mapping = msg[&apos;estado&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;estado&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>estado</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;estado&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>3</sequenceNumber>
+          <name>nombre_documento</name>
+          <script>var mapping;try { mapping = msg[&apos;nombre_documento&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;nombre_documento&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>nombre_documento</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;nombre_documento&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>4</sequenceNumber>
+          <name>tipo</name>
+          <script>var mapping;try { mapping = msg[&apos;tipo&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;tipo&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>tipo</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;tipo&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>5</sequenceNumber>
+          <name>mail</name>
+          <script>var mapping;try { mapping = msg[&apos;mail&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;mail&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>mail</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;mail&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>6</sequenceNumber>
+          <name>log</name>
+          <script>var mapping;try { mapping = msg[&apos;log&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;log&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>log</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;log&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>7</sequenceNumber>
+          <name>id_envio</name>
+          <script>var mapping;try { mapping = msg[&apos;id_envio&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;id_envio&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>id_envio</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;id_envio&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>8</sequenceNumber>
+          <name>documento_xml</name>
+          <script>var mapping;try { mapping = msg[&apos;documento_xml&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;documento_xml&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>documento_xml</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;documento_xml&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>9</sequenceNumber>
+          <name>fecha_emision</name>
+          <script>var mapping;try { mapping = msg[&apos;fecha_emision&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;fecha_emision&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>fecha_emision</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;fecha_emision&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>10</sequenceNumber>
+          <name>xml</name>
+          <script>var mapping;try { mapping = msg[&apos;xml&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;xml&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>xml</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;xml&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>11</sequenceNumber>
+          <name>tipo_emision</name>
+          <script>var mapping;try { mapping = msg[&apos;tipo_emision&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;tipo_emision&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>tipo_emision</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;tipo_emision&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>12</sequenceNumber>
+          <name>observacion</name>
+          <script>var mapping;try { mapping = msg[&apos;observacion&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;observacion&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>observacion</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;observacion&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>13</sequenceNumber>
+          <name>id_periodo</name>
+          <script>var mapping;try { mapping = msg[&apos;id_periodo&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;id_periodo&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>id_periodo</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;id_periodo&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>14</sequenceNumber>
+          <name>fecha_autorizacion</name>
+          <script>var mapping;try { mapping = msg[&apos;fecha_autorizacion&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;fecha_autorizacion&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>fecha_autorizacion</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;fecha_autorizacion&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>15</sequenceNumber>
+          <name>ultimo</name>
+          <script>var mapping;try { mapping = msg[&apos;ultimo&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;ultimo&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>ultimo</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;ultimo&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>16</sequenceNumber>
+          <name>clave_acceso</name>
+          <script>var mapping;try { mapping = msg[&apos;clave_acceso&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;clave_acceso&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>clave_acceso</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;clave_acceso&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>17</sequenceNumber>
+          <name>monto_total</name>
+          <script>var mapping;try { mapping = msg[&apos;monto_total&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;monto_total&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>monto_total</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;monto_total&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>18</sequenceNumber>
+          <name>path_xml</name>
+          <script>var mapping;try { mapping = msg[&apos;path_xml&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;path_xml&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>path_xml</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;path_xml&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>19</sequenceNumber>
+          <name>sociedad</name>
+          <script>var mapping;try { mapping = msg[&apos;sociedad&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;sociedad&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>sociedad</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;sociedad&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>20</sequenceNumber>
+          <name>autorizado</name>
+          <script>var mapping;try { mapping = msg[&apos;autorizado&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;autorizado&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>autorizado</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;autorizado&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>21</sequenceNumber>
+          <name>secuencia</name>
+          <script>var mapping;try { mapping = msg[&apos;secuencia&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;secuencia&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>secuencia</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;secuencia&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>22</sequenceNumber>
+          <name>nro_sri</name>
+          <script>var mapping;try { mapping = msg[&apos;nro_sri&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;nro_sri&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>nro_sri</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;nro_sri&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>23</sequenceNumber>
+          <name>recepcionado</name>
+          <script>var mapping;try { mapping = msg[&apos;recepcionado&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;recepcionado&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>recepcionado</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;recepcionado&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>24</sequenceNumber>
+          <name>razon_social</name>
+          <script>var mapping;try { mapping = msg[&apos;razon_social&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;razon_social&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>razon_social</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;razon_social&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>25</sequenceNumber>
+          <name>terminal</name>
+          <script>var mapping;try { mapping = msg[&apos;terminal&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;terminal&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>terminal</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;terminal&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>26</sequenceNumber>
+          <name>id_sociedad</name>
+          <script>var mapping;try { mapping = msg[&apos;id_sociedad&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;id_sociedad&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>id_sociedad</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;id_sociedad&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>27</sequenceNumber>
+          <name>notificacion</name>
+          <script>var mapping;try { mapping = msg[&apos;notificacion&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;notificacion&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>notificacion</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;notificacion&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>28</sequenceNumber>
+          <name>escenario</name>
+          <script>var mapping;try { mapping = msg[&apos;escenario&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;escenario&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>escenario</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;escenario&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>29</sequenceNumber>
+          <name>tipo_doc</name>
+          <script>var mapping;try { mapping = msg[&apos;tipo_doc&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;tipo_doc&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>tipo_doc</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;tipo_doc&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>30</sequenceNumber>
+          <name>pdf</name>
+          <script>var mapping;try { mapping = msg[&apos;pdf&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;pdf&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>pdf</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;pdf&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>31</sequenceNumber>
+          <name>fecha_registro</name>
+          <script>var mapping;try { mapping = msg[&apos;fecha_registro&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;fecha_registro&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>fecha_registro</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;fecha_registro&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>32</sequenceNumber>
+          <name>nro_autorizacion</name>
+          <script>var mapping;try { mapping = msg[&apos;nro_autorizacion&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;nro_autorizacion&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>nro_autorizacion</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;nro_autorizacion&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>33</sequenceNumber>
+          <name>usuario</name>
+          <script>var mapping;try { mapping = msg[&apos;usuario&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;usuario&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>usuario</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;usuario&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>34</sequenceNumber>
+          <name>mensaje</name>
+          <script>var mapping;try { mapping = msg[&apos;mensaje&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;mensaje&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>mensaje</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;mensaje&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>35</sequenceNumber>
+          <name>contabilizado</name>
+          <script>var mapping;try { mapping = msg[&apos;contabilizado&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;contabilizado&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>contabilizado</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;contabilizado&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>36</sequenceNumber>
+          <name>anulado</name>
+          <script>var mapping;try { mapping = msg[&apos;anulado&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;anulado&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>anulado</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;anulado&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>37</sequenceNumber>
+          <name>email_destino</name>
+          <script>var mapping;try { mapping = msg[&apos;email_destino&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;email_destino&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>email_destino</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;email_destino&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>38</sequenceNumber>
+          <name>tipo_doc_referencia</name>
+          <script>var mapping;try { mapping = msg[&apos;tipo_doc_referencia&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;tipo_doc_referencia&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>tipo_doc_referencia</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;tipo_doc_referencia&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>39</sequenceNumber>
+          <name>doc_referencia</name>
+          <script>var mapping;try { mapping = msg[&apos;doc_referencia&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;doc_referencia&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>doc_referencia</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;doc_referencia&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>40</sequenceNumber>
+          <name>interlocutor</name>
+          <script>var mapping;try { mapping = msg[&apos;interlocutor&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;interlocutor&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>interlocutor</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;interlocutor&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>41</sequenceNumber>
+          <name>esquema</name>
+          <script>var mapping;try { mapping = msg[&apos;esquema&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;esquema&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>esquema</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;esquema&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+		<step>
+          <sequenceNumber>42</sequenceNumber>
+          <name>ruc_cliente</name>
+          <script>var mapping;try { mapping = msg[&apos;ruc_cliente&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;ruc_cliente&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data>
+            <entry>
+              <string>Variable</string>
+              <string>ruc_cliente</string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;ruc_cliente&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+      </steps>
+      <inboundTemplate encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8
+cmVzdWx0Pg0KICAgIDxpZF9lbnZpbz52YWx1ZTwvaWRfZW52aW8+DQogICAgPGlkX3NvY2llZGFk
+PnZhbHVlPC9pZF9zb2NpZWRhZD4NCiAgICA8aWRfcGVyaW9kbz52YWx1ZTwvaWRfcGVyaW9kbz4N
+CiAgICA8c2VjdWVuY2lhPnZhbHVlPC9zZWN1ZW5jaWE+DQogICAgPHJ1Yz52YWx1ZTwvcnVjPg0K
+ICAgIDxucm9fc3JpPnZhbHVlPC9ucm9fc3JpPg0KICAgIDxkb2NfcmVmZXJlbmNpYT52YWx1ZTwv
+ZG9jX3JlZmVyZW5jaWE+DQogICAgPGZlY2hhX2VtaXNpb24+dmFsdWU8L2ZlY2hhX2VtaXNpb24+
+DQogICAgPHRpcG9fZG9jPnZhbHVlPC90aXBvX2RvYz4NCiAgICA8dGlwb19kb2NfcmVmZXJlbmNp
+YT52YWx1ZTwvdGlwb19kb2NfcmVmZXJlbmNpYT4NCiAgICA8Y2xhdmVfYWNjZXNvPnZhbHVlPC9j
+bGF2ZV9hY2Nlc28+DQogICAgPG5yb19hdXRvcml6YWNpb24+dmFsdWU8L25yb19hdXRvcml6YWNp
+b24+DQogICAgPGZlY2hhX2F1dG9yaXphY2lvbj52YWx1ZTwvZmVjaGFfYXV0b3JpemFjaW9uPg0K
+ICAgIDxjb250YWJpbGl6YWRvPnZhbHVlPC9jb250YWJpbGl6YWRvPg0KICAgIDxhbnVsYWRvPnZh
+bHVlPC9hbnVsYWRvPg0KICAgIDx4bWw+dmFsdWU8L3htbD4NCiAgICA8cGF0aF94bWw+dmFsdWU8
+L3BhdGhfeG1sPg0KICAgIDxwYXRoX3BkZj52YWx1ZTwvcGF0aF9wZGY+DQogICAgPGVzY2VuYXJp
+bz52YWx1ZTwvZXNjZW5hcmlvPg0KICAgIDxlc3RhZG8+dmFsdWU8L2VzdGFkbz4NCiAgICA8bG9n
+PnZhbHVlPC9sb2c+DQogICAgPHBkZj52YWx1ZTwvcGRmPg0KICAgIDxwZGY+dmFsdWU8L3BkZj4N
+CiAgICA8bWFpbD52YWx1ZTwvbWFpbD4NCiAgICA8dWx0aW1vPnZhbHVlPC91bHRpbW8+DQogICAg
+PHJlY2VwY2lvbmFkbz52YWx1ZTwvcmVjZXBjaW9uYWRvPg0KICAgIDxhdXRvcml6YWRvPnZhbHVl
+PC9hdXRvcml6YWRvPg0KICAgIDxhdXRvcml6YWRvPnZhbHVlPC9hdXRvcml6YWRvPg0KICAgIDx1
+c3VhcmlvPnZhbHVlPC91c3VhcmlvPg0KICAgIDx0ZXJtaW5hbD52YWx1ZTwvdGVybWluYWw+DQog
+ICAgPGVtYWlsX2Rlc3Rpbm8+dmFsdWU8L2VtYWlsX2Rlc3Rpbm8+DQogICAgPGZlY2hhX3JlZ2lz
+dHJvPnZhbHVlPC9mZWNoYV9yZWdpc3Rybz4NCiAgICA8dGlwb19lbWlzaW9uPnZhbHVlPC90aXBv
+X2VtaXNpb24+DQogICAgPG9ic2VydmFjaW9uPnZhbHVlPC9vYnNlcnZhY2lvbj4NCiAgICA8ZG9j
+dW1lbnRvX3htbD52YWx1ZTwvZG9jdW1lbnRvX3htbD4NCiAgICA8bWVuc2FqZT52YWx1ZTwvbWVu
+c2FqZT4NCiAgICA8bm9tYnJlX2RvY3VtZW50bz52YWx1ZTwvbm9tYnJlX2RvY3VtZW50bz4NCiAg
+ICA8bm90aWZpY2FjaW9uPnZhbHVlPC9ub3RpZmljYWNpb24+DQogICAgPG1vbnRvX3RvdGFsPnZh
+bHVlPC9tb250b190b3RhbD4NCiAgICA8aW50ZXJsb2N1dG9yPnZhbHVlPC9pbnRlcmxvY3V0b3I+
+DQogICAgPHRpcG8+dmFsdWU8L3RpcG8+DQogICAgPHRpcG8+dmFsdWU8L3RpcG8+DQogICAgPHNv
+Y2llZGFkPnZhbHVlPC9zb2NpZWRhZD4NCiAgICA8cmF6b25fc29jaWFsPnZhbHVlPC9yYXpvbl9z
+b2NpYWw+DQogICAgPGVzcXVlbWE+dmFsdWU8L2VzcXVlbWE+DQo8L3Jlc3VsdD4NCg==</inboundTemplate>
+      <outboundTemplate encoding="base64"></outboundTemplate>
+      <inboundDataType>XML</inboundDataType>
+      <outboundDataType>XML</outboundDataType>
+      <inboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.0.3">
+        <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.0.3">
+          <stripNamespaces>true</stripNamespaces>
+        </serializationProperties>
+      </inboundProperties>
+      <outboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.0.3">
+        <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.0.3">
+          <stripNamespaces>true</stripNamespaces>
+        </serializationProperties>
+      </outboundProperties>
+    </transformer>
+    <filter version="3.0.3">
+      <rules/>
+    </filter>
+    <transportName>Database Reader</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <waitForPrevious>true</waitForPrevious>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector version="3.0.3">
+      <metaDataId>1</metaDataId>
+      <name>Base de datos del portal</name>
+      <properties class="com.mirth.connect.connectors.jdbc.DatabaseDispatcherProperties" version="3.0.3">
+        <queueConnectorProperties version="3.0.3">
+          <queueEnabled>false</queueEnabled>
+          <sendFirst>false</sendFirst>
+          <retryIntervalMillis>10000</retryIntervalMillis>
+          <regenerateTemplate>false</regenerateTemplate>
+          <retryCount>0</retryCount>
+          <rotate>false</rotate>
+          <threadCount>1</threadCount>
+        </queueConnectorProperties>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://localhost:5432/ecuasal_qas_2</url>
+        <username>postgres</username>
+        <password>asdf</password>
+        <query>SELECT USP_FE_INS_COMPROBANTE(
+			${ruc}::character varying
+           ,${nro_sri}::character varying
+           ,${doc_referencia}::character varying
+           ,${fecha_emision}::timestamp
+           ,${tipo_doc}::character varying
+           ,${tipo_doc_referencia}::character varying
+           ,${clave_acceso}::character varying
+           ,${nro_autorizacion}::character varying
+			,${fecha_autorizacion}::character varying
+           ,${contabilizado}::integer
+           ,${anulado}::integer
+
+,${xml}
+           ,${path_xml}
+           ,${path_pdf}
+
+
+           ,${escenario}::integer
+           ,${estado}::character varying
+           ,${log}::text
+
+
+           
+           ,${pdf}::integer
+
+           ,${mail}::integer
+
+
+           ,${recepcionado}::integer
+           ,${autorizado}::integer
+
+           
+           ,${usuario}
+           ,${terminal}
+           ,${email_destino}
+
+           
+           ,${tipo_emision}::integer
+           ,${observacion}
+           ,${documento_xml}
+           ,${mensaje}
+           ,${nombre_documento}
+           ,${notificacion}::integer
+           ,${monto_total}::DOUBLE PRECISION
+           ,${interlocutor}
+           ,${tipo}
+           ,${sociedad}
+           ,${razon_social}
+           ,${esquema}::integer
+		   ,${ruc_cliente}
+)</query>
+        <useScript>false</useScript>
+      </properties>
+      <transformer version="3.0.3">
+        <steps/>
+        <inboundTemplate encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8
+cmVzdWx0Pg0KICAgIDxpZF9lbnZpbz52YWx1ZTwvaWRfZW52aW8+DQogICAgPGlkX3NvY2llZGFk
+PnZhbHVlPC9pZF9zb2NpZWRhZD4NCiAgICA8aWRfcGVyaW9kbz52YWx1ZTwvaWRfcGVyaW9kbz4N
+CiAgICA8c2VjdWVuY2lhPnZhbHVlPC9zZWN1ZW5jaWE+DQogICAgPHJ1Yz52YWx1ZTwvcnVjPg0K
+ICAgIDxucm9fc3JpPnZhbHVlPC9ucm9fc3JpPg0KICAgIDxkb2NfcmVmZXJlbmNpYT52YWx1ZTwv
+ZG9jX3JlZmVyZW5jaWE+DQogICAgPGZlY2hhX2VtaXNpb24+dmFsdWU8L2ZlY2hhX2VtaXNpb24+
+DQogICAgPHRpcG9fZG9jPnZhbHVlPC90aXBvX2RvYz4NCiAgICA8dGlwb19kb2NfcmVmZXJlbmNp
+YT52YWx1ZTwvdGlwb19kb2NfcmVmZXJlbmNpYT4NCiAgICA8Y2xhdmVfYWNjZXNvPnZhbHVlPC9j
+bGF2ZV9hY2Nlc28+DQogICAgPG5yb19hdXRvcml6YWNpb24+dmFsdWU8L25yb19hdXRvcml6YWNp
+b24+DQogICAgPGZlY2hhX2F1dG9yaXphY2lvbj52YWx1ZTwvZmVjaGFfYXV0b3JpemFjaW9uPg0K
+ICAgIDxjb250YWJpbGl6YWRvPnZhbHVlPC9jb250YWJpbGl6YWRvPg0KICAgIDxhbnVsYWRvPnZh
+bHVlPC9hbnVsYWRvPg0KICAgIDx4bWw+dmFsdWU8L3htbD4NCiAgICA8cGF0aF94bWw+dmFsdWU8
+L3BhdGhfeG1sPg0KICAgIDxwYXRoX3BkZj52YWx1ZTwvcGF0aF9wZGY+DQogICAgPGVzY2VuYXJp
+bz52YWx1ZTwvZXNjZW5hcmlvPg0KICAgIDxlc3RhZG8+dmFsdWU8L2VzdGFkbz4NCiAgICA8bG9n
+PnZhbHVlPC9sb2c+DQogICAgPHBkZj52YWx1ZTwvcGRmPg0KICAgIDxwZGY+dmFsdWU8L3BkZj4N
+CiAgICA8bWFpbD52YWx1ZTwvbWFpbD4NCiAgICA8dWx0aW1vPnZhbHVlPC91bHRpbW8+DQogICAg
+PHJlY2VwY2lvbmFkbz52YWx1ZTwvcmVjZXBjaW9uYWRvPg0KICAgIDxhdXRvcml6YWRvPnZhbHVl
+PC9hdXRvcml6YWRvPg0KICAgIDxhdXRvcml6YWRvPnZhbHVlPC9hdXRvcml6YWRvPg0KICAgIDx1
+c3VhcmlvPnZhbHVlPC91c3VhcmlvPg0KICAgIDx0ZXJtaW5hbD52YWx1ZTwvdGVybWluYWw+DQog
+ICAgPGVtYWlsX2Rlc3Rpbm8+dmFsdWU8L2VtYWlsX2Rlc3Rpbm8+DQogICAgPGZlY2hhX3JlZ2lz
+dHJvPnZhbHVlPC9mZWNoYV9yZWdpc3Rybz4NCiAgICA8dGlwb19lbWlzaW9uPnZhbHVlPC90aXBv
+X2VtaXNpb24+DQogICAgPG9ic2VydmFjaW9uPnZhbHVlPC9vYnNlcnZhY2lvbj4NCiAgICA8ZG9j
+dW1lbnRvX3htbD52YWx1ZTwvZG9jdW1lbnRvX3htbD4NCiAgICA8bWVuc2FqZT52YWx1ZTwvbWVu
+c2FqZT4NCiAgICA8bm9tYnJlX2RvY3VtZW50bz52YWx1ZTwvbm9tYnJlX2RvY3VtZW50bz4NCiAg
+ICA8bm90aWZpY2FjaW9uPnZhbHVlPC9ub3RpZmljYWNpb24+DQogICAgPG1vbnRvX3RvdGFsPnZh
+bHVlPC9tb250b190b3RhbD4NCiAgICA8aW50ZXJsb2N1dG9yPnZhbHVlPC9pbnRlcmxvY3V0b3I+
+DQogICAgPHRpcG8+dmFsdWU8L3RpcG8+DQogICAgPHRpcG8+dmFsdWU8L3RpcG8+DQogICAgPHNv
+Y2llZGFkPnZhbHVlPC9zb2NpZWRhZD4NCiAgICA8cmF6b25fc29jaWFsPnZhbHVlPC9yYXpvbl9z
+b2NpYWw+DQogICAgPGVzcXVlbWE+dmFsdWU8L2VzcXVlbWE+DQo8L3Jlc3VsdD4NCg==</inboundTemplate>
+        <inboundDataType>XML</inboundDataType>
+        <outboundDataType>HL7V2</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.0.3">
+          <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.0.3">
+            <stripNamespaces>true</stripNamespaces>
+          </serializationProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DataTypeProperties" version="3.0.3">
+          <serializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2SerializationProperties" version="3.0.3">
+            <handleRepetitions>true</handleRepetitions>
+            <handleSubcomponents>true</handleSubcomponents>
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <stripNamespaces>true</stripNamespaces>
+            <segmentDelimiter>\r</segmentDelimiter>
+            <convertLineBreaks>true</convertLineBreaks>
+          </serializationProperties>
+          <deserializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DeserializationProperties" version="3.0.3">
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <segmentDelimiter>\r</segmentDelimiter>
+          </deserializationProperties>
+          <responseGenerationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseGenerationProperties" version="3.0.3">
+            <segmentDelimiter>\r</segmentDelimiter>
+            <successfulACKCode>AA</successfulACKCode>
+            <successfulACKMessage></successfulACKMessage>
+            <errorACKCode>AE</errorACKCode>
+            <errorACKMessage>An Error Occurred Processing Message.</errorACKMessage>
+            <rejectedACKCode>AR</rejectedACKCode>
+            <rejectedACKMessage>Message Rejected.</rejectedACKMessage>
+            <msh15ACKAccept>false</msh15ACKAccept>
+          </responseGenerationProperties>
+          <responseValidationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseValidationProperties" version="3.0.3">
+            <successfulACKCode>AA,CA</successfulACKCode>
+            <errorACKCode>AE,CE</errorACKCode>
+            <rejectedACKCode>AR,CR</rejectedACKCode>
+          </responseValidationProperties>
+        </outboundProperties>
+      </transformer>
+      <responseTransformer version="3.0.3">
+        <steps/>
+        <inboundDataType>HL7V2</inboundDataType>
+        <outboundDataType>HL7V2</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DataTypeProperties" version="3.0.3">
+          <serializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2SerializationProperties" version="3.0.3">
+            <handleRepetitions>true</handleRepetitions>
+            <handleSubcomponents>true</handleSubcomponents>
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <stripNamespaces>true</stripNamespaces>
+            <segmentDelimiter>\r</segmentDelimiter>
+            <convertLineBreaks>true</convertLineBreaks>
+          </serializationProperties>
+          <deserializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DeserializationProperties" version="3.0.3">
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <segmentDelimiter>\r</segmentDelimiter>
+          </deserializationProperties>
+          <responseGenerationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseGenerationProperties" version="3.0.3">
+            <segmentDelimiter>\r</segmentDelimiter>
+            <successfulACKCode>AA</successfulACKCode>
+            <successfulACKMessage></successfulACKMessage>
+            <errorACKCode>AE</errorACKCode>
+            <errorACKMessage>An Error Occurred Processing Message.</errorACKMessage>
+            <rejectedACKCode>AR</rejectedACKCode>
+            <rejectedACKMessage>Message Rejected.</rejectedACKMessage>
+            <msh15ACKAccept>false</msh15ACKAccept>
+          </responseGenerationProperties>
+          <responseValidationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseValidationProperties" version="3.0.3">
+            <successfulACKCode>AA,CA</successfulACKCode>
+            <errorACKCode>AE,CE</errorACKCode>
+            <rejectedACKCode>AR,CR</rejectedACKCode>
+          </responseValidationProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DataTypeProperties" version="3.0.3">
+          <serializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2SerializationProperties" version="3.0.3">
+            <handleRepetitions>true</handleRepetitions>
+            <handleSubcomponents>true</handleSubcomponents>
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <stripNamespaces>true</stripNamespaces>
+            <segmentDelimiter>\r</segmentDelimiter>
+            <convertLineBreaks>true</convertLineBreaks>
+          </serializationProperties>
+          <deserializationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2DeserializationProperties" version="3.0.3">
+            <useStrictParser>false</useStrictParser>
+            <useStrictValidation>false</useStrictValidation>
+            <segmentDelimiter>\r</segmentDelimiter>
+          </deserializationProperties>
+          <responseGenerationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseGenerationProperties" version="3.0.3">
+            <segmentDelimiter>\r</segmentDelimiter>
+            <successfulACKCode>AA</successfulACKCode>
+            <successfulACKMessage></successfulACKMessage>
+            <errorACKCode>AE</errorACKCode>
+            <errorACKMessage>An Error Occurred Processing Message.</errorACKMessage>
+            <rejectedACKCode>AR</rejectedACKCode>
+            <rejectedACKMessage>Message Rejected.</rejectedACKMessage>
+            <msh15ACKAccept>false</msh15ACKAccept>
+          </responseGenerationProperties>
+          <responseValidationProperties class="com.mirth.connect.plugins.datatypes.hl7v2.HL7v2ResponseValidationProperties" version="3.0.3">
+            <successfulACKCode>AA,CA</successfulACKCode>
+            <errorACKCode>AE,CE</errorACKCode>
+            <rejectedACKCode>AR,CR</rejectedACKCode>
+          </responseValidationProperties>
+        </outboundProperties>
+      </responseTransformer>
+      <filter version="3.0.3">
+        <rules/>
+      </filter>
+      <transportName>Database Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </connector>
+  </destinationConnectors>
+  <preprocessingScript>// Modify the message variable below to pre process data
+return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+// Responses returned from here will be stored as &quot;Postprocessor&quot; in the response map
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <shutdownScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</shutdownScript>
+  <properties version="3.0.3">
+    <clearGlobalChannelMap>true</clearGlobalChannelMap>
+    <messageStorageMode>DISABLED</messageStorageMode>
+    <encryptData>false</encryptData>
+    <removeContentOnCompletion>false</removeContentOnCompletion>
+    <removeAttachmentsOnCompletion>false</removeAttachmentsOnCompletion>
+    <initialState>STARTED</initialState>
+    <storeAttachments>false</storeAttachments>
+    <tags class="linked-hash-set"/>
+    <metaDataColumns>
+      <metaDataColumn>
+        <name>SOURCE</name>
+        <type>STRING</type>
+        <mappingName>mirth_source</mappingName>
+      </metaDataColumn>
+      <metaDataColumn>
+        <name>TYPE</name>
+        <type>STRING</type>
+        <mappingName>mirth_type</mappingName>
+      </metaDataColumn>
+    </metaDataColumns>
+    <attachmentProperties>
+      <type>None</type>
+      <properties/>
+    </attachmentProperties>
+    <archiveEnabled>true</archiveEnabled>
+  </properties>
+</channel>

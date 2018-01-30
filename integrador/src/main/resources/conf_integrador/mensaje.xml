@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<integrador>
+    <mensaje>
+        <codigo>0</codigo>
+        <estado>0</estado>
+        <descripcion>Se ha generado el comprobante {0}-{1}-{2}</descripcion>
+        <generacion>true</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>601</codigo>
+        <estado>PE</estado>
+        <descripcion>Se ha generado otro comprobante {0}-{1}-{2}</descripcion>
+        <generacion>true</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>602</codigo>
+        <estado>EP</estado>
+        <descripcion>El comprobante {0}-{1}-{2} se encuentra en proceso de envio</descripcion>
+        <generacion>false</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>601</codigo>
+        <estado>TE</estado>
+        <descripcion>Se ha generado otro comprobante {0}-{1}-{2}</descripcion>
+        <generacion>true</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>601</codigo>
+        <estado>NR</estado>
+        <descripcion>Se ha generado otro comprobante {0}-{1}-{2}</descripcion>
+        <generacion>true</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>602</codigo>
+        <estado>RC</estado>
+        <descripcion>El comprobante {0}-{1}-{2} se encuentra en proceso de envio</descripcion>
+        <generacion>false</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>606</codigo>
+        <estado>AU</estado>
+        <descripcion>El comprobante {0}-{1}-{2} se encuentra Autorizado por el SRI</descripcion>
+        <generacion>false</generacion>
+    </mensaje>
+    <mensaje>
+        <codigo>601</codigo>
+        <estado>RE</estado>
+        <descripcion>Se ha generado otro comprobante {0}-{1}-{2}</descripcion>
+        <generacion>true</generacion>
+    </mensaje>
+</integrador>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes?wsdl" uri="wsdl/celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Google%20Drive/Hivimar/app/v3/ce/autorizacion-qas/src/main/resources/META-INF/wsdl/AutorizacionComprobantesService.wsdl" uri="wsdl/AutorizacionComprobantesService.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Google%20Drive/Hivimar/app/v3/ce/autorizacion-qas/src/main/resources/META-INF/wsdl/AutorizacionComprobantes.wsdl" uri="wsdl/AutorizacionComprobantes.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Desktop/AutorizacionComprobantes.wsdl" uri="wsdl/AutorizacionComprobantes.wsdl"/>
+</catalog>

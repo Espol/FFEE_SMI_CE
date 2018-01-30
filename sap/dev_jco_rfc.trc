@@ -1,0 +1,51 @@
+
+**** Error file opened at 20151104 123102 Colombia Time Rel 3.0.10 (2013-08-08) [720.440]
+Error:  >Wed Nov 04 12:31:02,061<    >RfcGetException rc (7) message: Usuario bloqueado -> Informar al responsable.
+<RfcGetException
+
+
+**** Error file opened at 20151104 141041 Colombia Time Rel 3.0.10 (2013-08-08) [720.440]
+Error:  >Wed Nov 04 14:10:41,953<    >RfcGetException rc (7) message: Usuario bloqueado -> Informar al responsable.
+<RfcGetException
+
+
+**** Error file opened at 20151104 141200 Colombia Time Rel 3.0.10 (2013-08-08) [720.440]
+Error:  >Wed Nov 04 14:12:00,012<    >RfcGetException rc (7) message: Usuario bloqueado -> Informar al responsable.
+<RfcGetException
+
+Error:  >Wed Nov 04 14:17:16,997<    >RfcGetException rc (7) message: Usuario bloqueado -> Informar al responsable.
+<RfcGetException
+
+Error:  >Wed Nov 04 14:17:20,155<    >RfcGetException rc (7) message: Usuario bloqueado -> Informar al responsable.
+<RfcGetException
+
+
+**** Error file opened at 20151104 144100 Colombia Time Rel 3.0.10 (2013-08-08) [720.440]
+Error:  >Wed Nov 04 14:41:00,908<    >RfcGetException rc (7) message: Syntax error in program SAPLZGFFE_DOCUMENTOS_DIGITALES          .
+<RfcGetException
+
+
+**** Error file opened at 20151104 211713 Colombia Time Rel 3.0.10 (2013-08-08) [720.440]
+Error:  >Wed Nov 04 21:17:13,523<    RfcException: [null]
+    message: Connect to SAP gateway failed
+Connection parameters: TYPE=A DEST=CONFIGURACION ASHOST=10.1.1.250 SYSNR=00 PCS=1
+
+LOCATION    CPIC (TCP/IP) on local host with Unicode
+ERROR       partner '10.1.1.250:3300' not reached
+TIME        Wed Nov 04 21:17:13 2015
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.1.1.250:3300
+SYSTEM CALL connect
+ERRNO       10060
+ERRNO TEXT  WSAETIMEDOUT: Connection timed out
+COUNTER     2
+
+    Return code: RFC_FAILURE(1)
+    error group: 102
+    key: RFC_ERROR_COMMUNICATION
+

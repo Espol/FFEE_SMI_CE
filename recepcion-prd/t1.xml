@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+  <infoTributaria>
+    <ambiente>2</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>ECUATORIANA DE SAL Y PRODUCTOS QUIMICOS CA ECUASAL</razonSocial>
+    <nombreComercial>ECUASAL</nombreComercial>
+    <ruc>0990007241001</ruc>
+    <claveAcceso>1112201501099000724100120021010000108190010810111</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>002</estab>
+    <ptoEmi>101</ptoEmi>
+    <secuencial>000010819</secuencial>
+    <dirMatriz>DR CAMILO PONCE ENRIQUEZ SOLAR 1 VIA A DAULE KM 12.5</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>05/05/2015</fechaEmision>
+    <dirEstablecimiento>DR CAMILO PONCE ENRIQUEZ SOLAR 1 VIA A DAULE KM 12.5</dirEstablecimiento>
+    <contribuyenteEspecial>6925</contribuyenteEspecial>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>DISTRIBUIDORA IMPORTADORA DIPOR S.A.</razonSocialComprador>
+    <identificacionComprador>0990789061001</identificacionComprador>
+    <totalSinImpuestos>8750.80</totalSinImpuestos>
+    <totalDescuento>0.00</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>0</codigoPorcentaje>
+        <baseImponible>8750.80</baseImponible>
+        <tarifa>0.00</tarifa>
+        <valor>0.00</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>8750.80</importeTotal>
+    <moneda>DOLAR</moneda>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>4008494</codigoPrincipal>
+      <descripcion>SAL YODADA DE 1 KG (50 FUNDAS)</descripcion>
+      <cantidad>120</cantidad>
+      <precioUnitario>16.07</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>1928.40</precioTotalSinImpuesto>
+      <detallesAdicionales>
+        <detAdicional nombre="Presentación Producto" valor="Sacos 50 KG"></detAdicional>
+        <detAdicional nombre="Unidad Medida" valor="S50"></detAdicional>
+      </detallesAdicionales>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>0</codigoPorcentaje>
+          <tarifa>0.00</tarifa>
+          <baseImponible>1928.40</baseImponible>
+          <valor>0.00</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>4008495</codigoPrincipal>
+      <descripcion>SAL YODADA DE 2 KG (25 FUNDAS)</descripcion>
+      <cantidad>520</cantidad>
+      <precioUnitario>13.12</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>6822.40</precioTotalSinImpuesto>
+      <detallesAdicionales>
+        <detAdicional nombre="Presentación Producto" valor="Sacos 50 KG"></detAdicional>
+        <detAdicional nombre="Unidad Medida" valor="S50"></detAdicional>
+      </detallesAdicionales>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>0</codigoPorcentaje>
+          <tarifa>0.00</tarifa>
+          <baseImponible>6822.40</baseImponible>
+          <valor>0.00</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Condición de Pago">Factura a 30 días</campoAdicional>
+    <campoAdicional nombre="Nro. Ped. Cliente">OC# 0300046607</campoAdicional>
+    <campoAdicional nombre="Dirección">LA HABANA S/N Y AVDA CIRCUNVALACION RIOBAMBA</campoAdicional>
+    <campoAdicional nombre="SEC">Sec.: 1190026295</campoAdicional>
+  </infoAdicional>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature47156">
+<ds:SignedInfo Id="Signature-SignedInfo698747">
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></ds:SignatureMethod>
+<ds:Reference Id="SignedPropertiesID406669" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature47156-SignedProperties530100">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>lD7bh6qPUQ/6wdfXvODCCYLI15Q=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#Certificate1626864">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>/lXxkKgt+xlaKXiAqFi3iFYKNV8=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="Reference-ID-157204" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>X60CRlCkOqsGUaH5p8iexMknSDQ=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="SignatureValue26959">
+EtqUEy0YFe6/L+2YkcjS1VivzLXcUK6Z/mj0GkV2ZiiqUjCO3iSLPqYOX1vycW2SbWCs5ntvVF2w
+gQa4ua56S3uX9rUkwPF6fuOF8bW3fXzCrW1ywKIq0XTZgq5kj0byXwnNX8HmcjBGt57i6DN6syVc
+Hh01Xqio4Lhuh2/r+x6oKx6L/BbAtKMKtRcY9OAHO2iWEgMTz7gXq1tHPr5SVa38KHRAo8/HgVVZ
+QUiIHfk5Rs9I6uhzqZyAKdn8i2jMIrCo6vY+yIf7EM1VY3JMYf4zjDSsKTRlYulhCHFXBDWTcUmd
+LVwN990Cmx/ocgoER8GjGtLzSQHo4YiFZsWcZg==
+</ds:SignatureValue>
+<ds:KeyInfo Id="Certificate1626864">
+<ds:X509Data>
+<ds:X509Certificate>
+MIIKCDCCCPCgAwIBAgIETV21YjANBgkqhkiG9w0BAQsFADCBkzELMAkGA1UEBhMCRUMxGzAZBgNV
+BAoTElNFQ1VSSVRZIERBVEEgUy5BLjEwMC4GA1UECxMnRU5USURBRCBERSBDRVJUSUZJQ0FDSU9O
+IERFIElORk9STUFDSU9OMTUwMwYDVQQDEyxBVVRPUklEQUQgREUgQ0VSVElGSUNBQ0lPTiBTVUIg
+U0VDVVJJVFkgREFUQTAeFw0xNDAxMjAxMzM5MjRaFw0xNjAxMjAxNDA5MjRaMIGOMQswCQYDVQQG
+EwJFQzEbMBkGA1UEChMSU0VDVVJJVFkgREFUQSBTLkEuMTAwLgYDVQQLEydFTlRJREFEIERFIENF
+UlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04xMDAuBgNVBAMTJ05pY29sYXMgRW5yaXF1ZSBGZWJy
+ZXMgQ29yZGVybyBHYWxsYXJkbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOk3fVXA
+JqXAczhmZ/RMfRpL6vp62skyO6HeTVIfB7sReM8AOeQhsnG+TYTTw/NSnXKSS2eM+EiuG8rsIpqB
++qSgrCPACsxSd4aUQfk+J+GO3HW2BHnNYLB18IGs3s7NNh8zmvbmdI4Sn/ZGuVakUgg1IH/WPafW
+pEc9vbVCdQywyfODitpluSVR/MKJ8pUKGtinppkXVvx/i5qwubGVCYiheb00/f53sQ4Ih9PDn/O4
+bqr/bisGSTB+kTI7EwTwiMf+R3wJgunN32rO5hdc0DeXuKZabUekr8PUdorgZe3II2sQOZKsdxsT
+zeGLpJzpy8Iok41fBtufSnZDkf/2XuECAwEAAaOCBmUwggZhMAsGA1UdDwQEAwIGwDBZBggrBgEF
+BQcBAQRNMEswSQYIKwYBBQUHMAGGPWh0dHA6Ly9vY3NwZ3cuc2VjdXJpdHlkYXRhLm5ldC5lYy9l
+amJjYS9wdWJsaWN3ZWIvc3RhdHVzL29jc3AwgcwGA1UdIASBxDCBwTBABgorBgEEAYKmcgIJMDIw
+MAYIKwYBBQUHAgIwJBoiQ2VydGlmaWNhZG8gZGUgUmVwcmVzZW50YW50ZSBMZWdhbDB9BgorBgEE
+AYKmcgIDMG8wbQYIKwYBBQUHAgEWYWh0dHBzOi8vd3d3LnNlY3VyaXR5ZGF0YS5uZXQuZWMvbGV5
+ZXNfbm9ybWF0aXZhcy9Qb2xpdGljYXMgZGUgQ2VydGlmaWNhZG8gUmVwcmVzZW50YW50ZSBMZWdh
+bC5wZGYwRAYKKwYBBAGCpnIDCgQ2EzRFQ1VBVE9SSUFOQSBERSBTQUwgWSBQUk9EVUNUT1MgUVVJ
+TUlDT1MgQy5BLiBFQ1VBU0FMMB0GCisGAQQBgqZyAwsEDxMNMDk5MDAwNzI0MTAwMTAaBgorBgEE
+AYKmcgMBBAwTCjA5MDg1ODA1NDEwHwYKKwYBBAGCpnIDAgQREw9OaWNvbGFzIEVucmlxdWUwHgYK
+KwYBBAGCpnIDAwQQEw5GZWJyZXMgQ29yZGVybzAYBgorBgEEAYKmcgMEBAoTCEdhbGxhcmRvMB8G
+CisGAQQBgqZyAwUEERMPR2VyZW50ZSBHZW5lcmFsMDwGCisGAQQBgqZyAwcELhMsMTAgZGUgQWdv
+c3RvIHkgTWFsZWNvbiBFZGlmaWNpbyBWYWxyYSBQaXNvIDYwFgYKKwYBBAGCpnIDIgQIEwYwOTAz
+MTMwHQYKKwYBBAGCpnIDCAQPEw01OTMtNC0yMzI1NjY2MBkGCisGAQQBgqZyAwkECxMJR3VheWFx
+dWlsMBcGCisGAQQBgqZyAwwECRMHRWN1YWRvcjAdBgorBgEEAYKmcgMdBA8TDTA5OTAwMDcyNDEw
+MDEwIQYKKwYBBAGCpnIDIAQTExEwMDEtMDAyLTAwMDAwMjc0MzATBgorBgEEAYKmcgMhBAUTA1BG
+WDAbBgNVHREEFDASgRBuaWNvQGVjdWFzYWwuY29tMIICeQYDVR0fBIICcDCCAmwwggJooIICZKCC
+AmCGPWh0dHA6Ly9vY3NwZ3cuc2VjdXJpdHlkYXRhLm5ldC5lYy9lamJjYS9wdWJsaWN3ZWIvc3Rh
+dHVzL29jc3CGgdRsZGFwOi8vZGlyZWN0LnNlY3VyaXR5ZGF0YS5uZXQuZWMvY249Q1JMNDksY249
+QVVUT1JJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwU1VCJTIwU0VDVVJJVFklMjBEQVRBLG91
+PUVOVElEQUQlMjBERSUyMENFUlRJRklDQUNJT04lMjBERSUyMElORk9STUFDSU9OLG89U0VDVVJJ
+VFklMjBEQVRBJTIwUy5BLixjPUVDP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q/YmFzZYaBnmh0
+dHBzOi8vZGlyZWN0LnNlY3VyaXR5ZGF0YS5uZXQuZWMvfmNybC9hdXRvcmlkYWRfZGVfY2VydGlm
+aWNhY2lvbl9zdWJfc2VjdXJpdHlfZGF0YV9lbnRpZGFkX2RlX2NlcnRpZmljYWNpb25fZGVfaW5m
+b3JtYWNpb25fY3VyaXR5X2RhdGFfcy5hLl9jX2VjX2NybGZpbGUuY3JspIGmMIGjMQswCQYDVQQG
+EwJFQzEbMBkGA1UEChMSU0VDVVJJVFkgREFUQSBTLkEuMTAwLgYDVQQLEydFTlRJREFEIERFIENF
+UlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04xNTAzBgNVBAMTLEFVVE9SSURBRCBERSBDRVJUSUZJ
+Q0FDSU9OIFNVQiBTRUNVUklUWSBEQVRBMQ4wDAYDVQQDEwVDUkw0OTArBgNVHRAEJDAigA8yMDE0
+MDEyMDEzMzkyNFqBDzIwMTYwMTA1MjMwOTI0WjAfBgNVHSMEGDAWgBT3L0zgdedio3iWWwa2LnE7
+zGw/kDAdBgNVHQ4EFgQU39obSc1i8hfopII+Y5vbLW8rSzIwCQYDVR0TBAIwADAZBgkqhkiG9n0H
+QQAEDDAKGwRWOC4xAwIDqDANBgkqhkiG9w0BAQsFAAOCAQEADd8iBIN7F12TiOs/SBgm1g+mAuSL
+5gF+79245fccp9AlLTUp8KUMKHQrfMKYe8Siy+cNq3c98YVJPBfI18UCFY/tVkU9Zwglxk/T1Poe
+3GjNVA48VWk+evjik4LvwonVqzFszdErSgFBseHquvLLsCCNeohnaGaYlJyIcRi7fc9aWVYLyM3i
+0+Ye8BO605C7hVJCHGii0BzPracF18lmm6ZcZuYWnMwZ/c0LURqLbWlcdMDRrZYW5EoTFelCMw89
+/A2dCo6oxgXMkrrpIZNVkm8Ifn7A5x1SzR4u06J0ro+awfK7w+342N4ZScNtTy6a9GJnroyDWRfd
+bozMwNhegA==
+</ds:X509Certificate>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>
+6Td9VcAmpcBzOGZn9Ex9Gkvq+nrayTI7od5NUh8HuxF4zwA55CGycb5NhNPD81KdcpJLZ4z4SK4b
+yuwimoH6pKCsI8AKzFJ3hpRB+T4n4Y7cdbYEec1gsHXwgazezs02HzOa9uZ0jhKf9ka5VqRSCDUg
+f9Y9p9akRz29tUJ1DLDJ84OK2mW5JVH8wonylQoa2KemmRdW/H+LmrC5sZUJiKF5vTT9/nexDgiH
+08Of87huqv9uKwZJMH6RMjsTBPCIx/5HfAmC6c3fas7mF1zQN5e4plptR6Svw9R2iuBl7cgjaxA5
+kqx3GxPN4YuknOnLwiiTjV8G259KdkOR//Ze4Q==
+</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object Id="Signature47156-Object591973"><etsi:QualifyingProperties Target="#Signature47156"><etsi:SignedProperties Id="Signature47156-SignedProperties530100"><etsi:SignedSignatureProperties><etsi:SigningTime>2015-12-11T16:04:16-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>mSkINb0mC/EzOwj3O8jeNqMALa8=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUB SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A.,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1297986914</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-157204"><etsi:Description>comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature>
+</factura>
