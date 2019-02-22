@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notaDebitofinal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="6" bottomMargin="6" uuid="f09160b5-97a0-40c5-bda9-90c20d75f973">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="402"/>
+	<property name="ireport.y" value="268"/>
 	<parameter name="ruc" class="java.lang.String"/>
 	<parameter name="numeroAutorizacion" class="java.lang.String"/>
 	<parameter name="fechaAutorizacion" class="java.lang.String"/>
@@ -286,7 +286,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="95" y="211" width="184" height="24" uuid="296f67a0-78ad-43b1-80de-221170634775"/>
 				<textElement verticalAlignment="Top">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -322,10 +322,10 @@
 				</textElement>
 				<text><![CDATA[N°:]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="9" y="238" width="270" height="16" uuid="2f7e8d89-5507-4e41-8050-0352986f11d5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>

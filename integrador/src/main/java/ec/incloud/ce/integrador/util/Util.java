@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ec.incloud.ce.bean.credito.NotaCredito;
 import ec.incloud.ce.bean.debito.NotaDebito;
@@ -176,5 +178,33 @@ public enum Util {
 	    }
 	    
 	    return comprobantePortal;
+    }
+    
+    private static final String PATROM_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    
+    
+    
+    public static String getCorreosValidos(String cadenaEmail) {
+    	String[] correos = cadenaEmail.split(","); 
+    	Pattern pattern = Pattern.compile(PATROM_EMAIL);
+    	String correoValidos ="";
+    	for(String email : correos) {
+    		Matcher mather = pattern.matcher(email);
+    		if(mather.matches()){
+    			if(correoValidos.isEmpty()){
+    				correoValidos = email;
+    			} else {
+    				correoValidos = correoValidos + "," + email;
+    			}
+    		}
+    	}
+    	
+    	return correoValidos;
+    }
+    
+    public static void main(String[] args) {
+    	String emails = "";
+    	System.out.println("email correctos: " + Util.getCorreosValidos(emails));
     }
 }   

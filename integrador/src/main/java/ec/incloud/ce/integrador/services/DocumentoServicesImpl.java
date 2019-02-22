@@ -34,6 +34,7 @@ import ec.incloud.ce.integrador.util.EstadoEnvioEnum;
 import ec.incloud.ce.integrador.util.MailSettingUtil;
 import ec.incloud.ce.integrador.util.SqlConfig;
 import ec.incloud.ce.integrador.util.TipoDocumentoEnum;
+import ec.incloud.ce.integrador.util.Util;
 import ec.incloud.ce.notificacion.EnviarNotificacion;
 import ec.incloud.ce.notificacion.MailProperties;
 import ec.incloud.ce.notificacion.Notificacion;
@@ -143,7 +144,7 @@ class DocumentoServicesImpl implements DocumentoServices {
     	String codPorcentaje="";
     	
 		try {
-			comprobante = xmlServices.getComprobanteDePathArchivo(documento.getXml());
+			comprobante = xmlServices.getComprobanteDePathArchivo(documento.getPathXml());
 			switch (documento.getTipoDocumento()) {
 	    	case "01":
 	        	if( documento.getSubtipoDoc()!=2 && documento.getSubtipoDoc()!=3){
@@ -270,7 +271,7 @@ class DocumentoServicesImpl implements DocumentoServices {
                 
                 String [] documentoParam = { documento.getObsComprobante()==null?"":documento.getObsComprobante() };
             	
-                pdfServices.generarPdf(xmlServices.getComprobanteDePathArchivo(documento.getXml()),
+                pdfServices.generarPdf(xmlServices.getComprobanteDePathArchivo(documento.getPathXml()),
                         FilenameUtils.removeExtension(documento.getXml()) + EXTENSION_PDF,
                         ackAutorizacion.getNumeroAutorizacion(),
                         ackAutorizacion.getFechaAutorizacion(),
@@ -474,7 +475,7 @@ class DocumentoServicesImpl implements DocumentoServices {
                                     TipoDocumentoEnum.getTipo(documento.getTipoDocumento()).getDescripcion(), 
                                     documento.getSerieCorrelativo(), 
                                     documento.getNumeroSap(), 
-                                    documento.getMailDestino(), 
+                                    Util.getCorreosValidos(documento.getMailDestino()), 
                                     null, 
                                     null, 
                                     adjunto);
@@ -489,8 +490,6 @@ class DocumentoServicesImpl implements DocumentoServices {
         List<String> adjunto = new ArrayList<>();
         adjunto.add(documento.getXml());
         adjunto.add(documento.getPdf());
-        
-//        String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
         
         String[ ] sociedad = new String[5];
         sociedad[0] = documento.getSociedad().getRuc();
@@ -511,7 +510,7 @@ class DocumentoServicesImpl implements DocumentoServices {
                                     TipoDocumentoEnum.getTipo(documento.getTipoDocumento()).getDescripcion(), 
                                     documento.getSerieCorrelativo(), 
                                     documento.getNumeroSap(), 
-                                    documento.getMailDestino(), 
+                                    Util.getCorreosValidos(documento.getMailDestino()), 
                                     null, 
                                     null, 
                                     adjunto);
@@ -526,8 +525,6 @@ class DocumentoServicesImpl implements DocumentoServices {
         List<String> adjunto = new ArrayList();
         adjunto.add(documento.getXml());
         adjunto.add(documento.getPdf());
-        
-//        String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
         
         String[ ] sociedad = new String[5];
         sociedad[0] = documento.getSociedad().getRuc();
@@ -547,7 +544,7 @@ class DocumentoServicesImpl implements DocumentoServices {
                                     TipoDocumentoEnum.getTipo(documento.getTipoDocumento()).getDescripcion(), 
                                     documento.getSerieCorrelativo(), 
                                     documento.getNumeroSap(), 
-                                    documento.getMailDestino(), 
+                                    Util.getCorreosValidos(documento.getMailDestino()), 
                                     null, 
                                     null, 
                                     adjunto);
@@ -583,7 +580,7 @@ class DocumentoServicesImpl implements DocumentoServices {
                                     TipoDocumentoEnum.getTipo(documento.getTipoDocumento()).getDescripcion(), 
                                     documento.getSerieCorrelativo(), 
                                     documento.getNumeroSap(), 
-                                    documento.getMailDestino(), 
+                                    Util.getCorreosValidos(documento.getMailDestino()), 
                                     null, 
                                     null, 
                                     adjunto);
@@ -595,7 +592,7 @@ class DocumentoServicesImpl implements DocumentoServices {
         MailSetting ms = MailSettingUtil.getInstance()
                         .toObject(documento.getSociedad().getMailSettings());
         
-        String mailAdministrador = documento.getSociedad().getMailNotificacion();
+        String mailAdministrador = Util.getCorreosValidos(documento.getSociedad().getMailNotificacion());
         
         String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
         
@@ -619,7 +616,7 @@ class DocumentoServicesImpl implements DocumentoServices {
         MailSetting ms = MailSettingUtil.getInstance()
                         .toObject(documento.getSociedad().getMailSettings());
         
-        String mailAdministrador = documento.getSociedad().getMailNotificacion();
+        String mailAdministrador = Util.getCorreosValidos(documento.getSociedad().getMailNotificacion());
         
         String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial(), timeAvailableCorrecion };
         
@@ -643,7 +640,7 @@ class DocumentoServicesImpl implements DocumentoServices {
             MailSetting ms = MailSettingUtil.getInstance()
                     .toObject(documento.getSociedad().getMailSettings());
 
-            String mailAdministrador = documento.getSociedad().getMailNotificacion();
+            String mailAdministrador = Util.getCorreosValidos(documento.getSociedad().getMailNotificacion());
             
             String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
             

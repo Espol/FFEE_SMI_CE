@@ -120,7 +120,7 @@ public class EnvioAutorizacionThread implements Runnable {
                             documento.setEstadoSri(EstadoDocumentoEnum.AUTORIZADO.getCodigo());
                             
                             //obtener data del xml para el portal
-                            comprobantePortal = Util.INSTANCE.getDataPortal(documento.getTipoDocumento(), documento.getSubtipoDoc(),  documento.getXml() );
+                            comprobantePortal = Util.INSTANCE.getDataPortal(documento.getTipoDocumento(), documento.getSubtipoDoc(),  documento.getPathXml() );
                             
                             
                             // portal
@@ -252,7 +252,7 @@ public class EnvioAutorizacionThread implements Runnable {
                             documento.setEstadoNotifRechazado(1);
                             
                           //obtener data del xml para el portal
-                          comprobantePortal = Util.INSTANCE.getDataPortal(documento.getTipoDocumento(), documento.getSubtipoDoc(),  documento.getXml() );
+                          comprobantePortal = Util.INSTANCE.getDataPortal(documento.getTipoDocumento(), documento.getSubtipoDoc(),  documento.getPathXml() );
                           
                             
 	                        //portal
@@ -324,7 +324,12 @@ public class EnvioAutorizacionThread implements Runnable {
                     log.error(ex);
                 }
             } catch (Exception e) {
-                log.error(e);
+            	log.error(e);
+            	try {
+                    documentoServices.actualizarEstadoEnvioErrorSriAutorizacion(documento);
+                } catch (IntegradorException ex) {
+                    log.error(ex);
+                }
             }
             
     		//FIN OFF-LINE

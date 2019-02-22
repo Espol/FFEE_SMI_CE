@@ -314,7 +314,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="95" y="210" width="184" height="24" uuid="ad5494bc-70ad-47a4-8d23-c5c48c1bd242"/>
 				<textElement verticalAlignment="Top">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -347,10 +347,10 @@
 				</textElement>
 				<text><![CDATA[N°:]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="9" y="237" width="270" height="16" uuid="fa13f1a4-5ebb-4308-a5ee-731ea226d250"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>

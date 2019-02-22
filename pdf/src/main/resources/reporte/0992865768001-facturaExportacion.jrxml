@@ -219,7 +219,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="94" y="210" width="184" height="24" uuid="3163a2d1-47f2-4225-84f7-c1aae7beea1d"/>
 				<textElement verticalAlignment="Top">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -388,10 +388,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{puertoDestino}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="7" y="235" width="271" height="16" uuid="5040e8de-ee24-44f5-bd2f-5f37ebf206fc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>

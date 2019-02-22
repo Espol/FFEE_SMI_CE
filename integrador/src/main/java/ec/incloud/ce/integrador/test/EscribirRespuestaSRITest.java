@@ -34,7 +34,7 @@ public class EscribirRespuestaSRITest {
 	   
 	   AutorizacionComprobantesOfflineService services = new AutorizacionComprobantesOfflineService();
    	   AutorizacionComprobantesOffline autorizacion = services.getAutorizacionComprobantesOfflinePort();
-        RespuestaComprobante respuesta = autorizacion.autorizacionComprobante("0810201501099034476000110010010000018610001860113");
+        RespuestaComprobante respuesta = autorizacion.autorizacionComprobante("1608201801099286576800120011010000166150016610114");
 //        RespuestaComprobante.Autorizaciones listAutorizaciones = respuesta.getAutorizaciones();
 //        List<Autorizacion> lstAutorizacion = listAutorizaciones.getAutorizacion();
         
@@ -69,7 +69,7 @@ public class EscribirRespuestaSRITest {
         stream.alias("mensaje", Mensaje.class);
         
         
-        String pathAbsolute = "C:\\Users\\Usuario\\Downloads\\rspuesta_sri4.xml";
+        String pathAbsolute = "C:\\Csti\\rspuesta_sri4.xml";
         try {
             
             FileOutputStream fis = new FileOutputStream(new File(pathAbsolute));

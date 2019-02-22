@@ -220,7 +220,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="94" y="212" width="184" height="26" uuid="2be1238a-a987-4636-9887-74bbd693162d"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -269,13 +269,6 @@
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{contribuyenteEspecial}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="7" y="240" width="271" height="16" uuid="7a0b1028-ebbd-4505-958b-d03d7c5d0b56"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

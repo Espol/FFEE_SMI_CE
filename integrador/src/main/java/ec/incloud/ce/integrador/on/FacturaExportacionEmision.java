@@ -42,6 +42,7 @@ class FacturaExportacionEmision implements Emision<FacturaExportacion> {
     private FacturaExportacion factura;
     private Sociedad sociedad;
     private String pathAbsoluteXML;
+    private String pathBackupXML;
     private String[] parametrosAdicionales;
 
     private final ClaveAccesoGen claveGenerador = new ClaveAccesoGen();
@@ -261,10 +262,18 @@ class FacturaExportacionEmision implements Emision<FacturaExportacion> {
         util.createDirectory(this.getXMLPath());
         this.pathAbsoluteXML = this.getXMLPath() + File.separator + this.getXMLName() + PUNTO_XML;
         XmlFactory.getFacturaExportacionXmlServices().generarXml(this.factura, this.pathAbsoluteXML);
+        
+        util.createDirectory(this.getXMLPathBackup());
+        this.pathBackupXML = this.getXMLPathBackup() + File.separator + this.getXMLName() + PUNTO_XML;
+        XmlFactory.getFacturaExportacionXmlServices().generarXml(this.factura, this.pathBackupXML);
     }
 
     private void firmarXML() throws FirmaException {
         FirmaFactory.createFirmaServices().firma(this.pathAbsoluteXML,
+                this.sociedad.getPathCertificado(),
+                this.sociedad.getClaveCertificado());
+        
+        FirmaFactory.createFirmaServices().firma(this.pathBackupXML,
                 this.sociedad.getPathCertificado(),
                 this.sociedad.getClaveCertificado());
     }
@@ -292,6 +301,7 @@ class FacturaExportacionEmision implements Emision<FacturaExportacion> {
         documento.setCodigoCliente(cliente);
         documento.setClaveAcceso(this.factura.getInfoTributaria().getClaveAcceso());
         documento.setXml(pathAbsoluteXML);
+        documento.setPathXml(pathBackupXML);
         documento.setNumeroSap(docSap);
         documento.setUsuarioSap(usuarioSap);
         documento.setTerminal(terminal);
@@ -370,6 +380,14 @@ class FacturaExportacionEmision implements Emision<FacturaExportacion> {
         return new StringBuilder(sociedad.getPathRoot()).
                 append(File.separator).
                 append(tipo.getDirectorio()).toString();
+    }
+    
+    public String getXMLPathBackup() {
+        return new StringBuilder(sociedad.getPathRoot()).
+                append(File.separator).
+                append(tipo.getDirectorio()).
+                append(File.separator).
+                append("backup").toString();
     }
 
     public String getXMLName() {

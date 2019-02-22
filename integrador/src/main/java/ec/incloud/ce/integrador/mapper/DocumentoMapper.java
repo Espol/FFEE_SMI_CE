@@ -48,7 +48,8 @@ public interface DocumentoMapper {
             + "#{doc.subtipoDoc},"
             + "#{doc.obsComprobante},"
             + "#{doc.emailPortal},"
-            + "#{doc.rucCliente} "
+            + "#{doc.rucCliente}, "
+            + "#{doc.pathXml} "
             + ")")
     @Options(statementType = StatementType.CALLABLE)
     public void insertarDocumento(@Param("doc") Documento documento);
@@ -165,7 +166,8 @@ public interface DocumentoMapper {
         @Result(property = "esquemaProc", column = "esquema_proc"),
         @Result(property = "emailPortal", column = "mail_portal"),
         @Result(property = "codigoCliente", column = "codigo_cliente"),
-        @Result(property = "rucCliente", column = "ruc_cliente")
+        @Result(property = "rucCliente", column = "ruc_cliente"),
+        @Result(property = "pathXml", column = "path_xml")
     })
     @Select("SELECT * FROM USP_FE_LST_DOCUMENTO_ENVIO( #{destino}, #{estado}, #{max} )")
     @Options(statementType = StatementType.CALLABLE)

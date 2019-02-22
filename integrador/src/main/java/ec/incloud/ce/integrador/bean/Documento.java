@@ -28,7 +28,7 @@ public class Documento {
     private String fechaReferencia;
     private String codigoCliente;
     private String claveAcceso;
-    private String xml;
+    private String xml;//Ruta de XML el cual cambia con la Respuesta del SRI
     private String pdf;
     private boolean ultimo;
     private String estadoSri;
@@ -65,6 +65,8 @@ public class Documento {
     private String emailPortal;
     
     private String rucCliente;//portal
+    
+    private String pathXml;//ruta del XML Generado en JAVA
 
 	public Documento() {
         this.periodo = new Periodo();
@@ -401,5 +403,13 @@ public class Documento {
 
 	public void setRucCliente(String rucCliente) {
 		this.rucCliente = rucCliente;
+	}
+
+	public String getPathXml() {
+		return pathXml;
+	}
+
+	public void setPathXml(String pathXml) {
+		this.pathXml = pathXml;
 	}
 }
