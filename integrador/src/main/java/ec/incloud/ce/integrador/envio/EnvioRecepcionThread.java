@@ -182,7 +182,7 @@ public class EnvioRecepcionThread implements Runnable {
                                     msg.append("\n");
                                     
 
-                                    if( m.getMensaje()!=null && m.getInformacionAdicional()!=null){                                    	
+                                    if( m.getMensaje()!=null && m.getInformacionAdicional()!=null){                                  	
                                     	
                                     	//erorr del sri
                                     	if( m.getMensaje().contains( errorSRI_1) && m.getInformacionAdicional().contains( errorSRI_2 ) )

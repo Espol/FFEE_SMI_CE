@@ -302,13 +302,10 @@ public enum EnviarNotificacion implements Notificacion{
             
             StringWriter w = new StringWriter();
             t.merge(context, w);
-            String titulo = MessageFormat.format("NOTIFICACIÓN: {0} ", 
-            					"CADUCIDAD DE LA FIRMA ELECTRÓNICA"
-            				);
+            String titulo = MessageFormat.format("NOTIFICACIÓN: {0} ", "CADUCIDAD DE LA FIRMA ELECTRÓNICA");
             
             return mail.enviarCorreo(mailProp, titulo, w.toString(), from, cc, cco, archivoAdjunto);
         }
-        
     };
     
     VelocityEngine velocity;

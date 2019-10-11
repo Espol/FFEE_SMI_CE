@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="7" bottomMargin="7" uuid="29b83213-5399-45a6-9178-750fcb5c86ef">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="674"/>
+	<property name="ireport.y" value="528"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -137,7 +137,7 @@
 			</componentElement>
 			<image hAlign="Center" vAlign="Middle" isUsingCache="true">
 				<reportElement x="0" y="21" width="285" height="163" uuid="09db51a3-37fe-4a13-9c4a-0af0e2338807"/>
-				<imageExpression><![CDATA[$P{ruc}+"-logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{ruc}+"-logo.png"]]></imageExpression>
 			</image>
 			<rectangle radius="5">
 				<reportElement mode="Transparent" x="0" y="186" width="285" height="110" uuid="733d2130-c0ec-4dc9-83a0-7feb82a4db9c"/>
@@ -693,74 +693,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[""+$P{valorTotal}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="3" width="30" height="15" uuid="e0f5fc6a-54f7-4bdb-b102-9fa8054adc08"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[SON:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="30" y="3" width="387" height="15" uuid="bb47a286-85de-45db-a817-721352a0ad20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{montoLetras}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="20" width="30" height="15" uuid="68b959fb-40a7-4bdd-9e89-d60f4872cd83">
-					<printWhenExpression><![CDATA[$P{urlSociedad}!=""]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[URL:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="31" y="20" width="340" height="15" uuid="7a8c8189-6d57-4bee-bbd5-75e36edbe905">
-					<printWhenExpression><![CDATA[new Boolean($P{urlSociedad}!="")]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{urlSociedad}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="36" width="52" height="15" uuid="03565d9c-700d-44ed-828b-1c2456a0411c">
-					<printWhenExpression><![CDATA[new Boolean($P{USUARIO}!="")]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Usuario:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="53" y="36" width="125" height="15" uuid="f6ce90a5-c8f0-429b-9bdc-fad4eec140e5">
-					<printWhenExpression><![CDATA[new Boolean($P{USUARIO}!="")]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($P{USUARIO} =="")?"":$P{USUARIO}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="233" y="36" width="138" height="15" uuid="6f4e9c76-7a3d-4e8e-8f08-b8ef8ee5272a">
-					<printWhenExpression><![CDATA[new Boolean($P{PASSWORD}!="")]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($P{PASSWORD} =="")?"":$P{PASSWORD}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="181" y="36" width="52" height="15" uuid="a05d4534-8df6-43cf-9d87-6d7d1ed33943">
-					<printWhenExpression><![CDATA[new Boolean($P{PASSWORD}!="")]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Password:]]></text>
-			</staticText>
 			<textField>
 				<reportElement mode="Transparent" x="402" y="88" width="98" height="16" uuid="b98afc47-6435-48d6-9476-0b89d01ea56d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -774,6 +706,20 @@
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["IVA "+$P{labelIva} +" %"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="10" width="30" height="15" uuid="9ba3d05f-0c42-42a9-ba5e-ff9c67fecf21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SON:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="41" y="10" width="387" height="15" uuid="4c987ccc-cfc2-4631-9672-1a88213fba9a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montoLetras}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

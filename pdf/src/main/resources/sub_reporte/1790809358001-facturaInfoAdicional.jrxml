@@ -19,17 +19,17 @@
 	</columnHeader>
 	<detail>
 		<band height="10" splitType="Stretch">
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="10" isPrintWhenDetailOverflows="true" uuid="adcf1f39-9b57-4a74-8719-91479ff079c2"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="70" height="10" uuid="adcf1f39-9b57-4a74-8719-91479ff079c2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="105" y="0" width="280" height="10" uuid="2a2997a3-79b7-470d-9b12-b80aa44d2927"/>
+				<reportElement x="74" y="0" width="311" height="10" uuid="2a2997a3-79b7-470d-9b12-b80aa44d2927"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>

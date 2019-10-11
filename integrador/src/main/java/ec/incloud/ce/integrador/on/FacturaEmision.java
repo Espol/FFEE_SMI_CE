@@ -89,7 +89,6 @@ class FacturaEmision implements Emision<Factura> {
 			String idUsuario, 
 			String password,
 			String obsComprobante
-            
     		) {
         synchronized (FacturaEmision.class) {
             Respuesta rpta = new Respuesta();

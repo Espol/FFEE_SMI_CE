@@ -1,4 +1,5 @@
 /*
+
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -54,7 +55,11 @@ class EnviarMail  {
             propiedades.put("mail.smtp.ssl.trust", mailProp.getHost());
             
             MimeMultipart multiParte = new MimeMultipart();
-            Session session = Session.getDefaultInstance(propiedades);
+            //Correccion segun: 
+            //https://stackoverflow.com/questions/4184204/what-is-the-difference-between-getdefaultinstance-and-getinstance-in-session
+            //Session session = Session.getDefaultInstance(propiedades);//cuasa error de envio de correo
+            Session session  = null;
+            session = Session.getInstance(propiedades);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(propiedades.getProperty("mail.smtp.user").trim()));
 
