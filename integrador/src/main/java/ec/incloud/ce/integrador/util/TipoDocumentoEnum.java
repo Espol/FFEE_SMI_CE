@@ -12,6 +12,7 @@ package ec.incloud.ce.integrador.util;
 public enum TipoDocumentoEnum {
 
     FACTURA("01", "factura", "FACTURA", "factura"),
+    LIQUIDACIONCOMPRA("03", "liquidacionCompra", "LIQUIDACIONCOMPRA", "liquidacionCompra"),
     CREDITO("04", "nota_credito", "NOTA DE CRÉDITO", "notaCredito"),
     DEBITO("05", "nota_debito", "NOTA DE DÉBITO", "notaDebito"),
     GUIA("06", "guia_remision", "GUIA DE REMISIÓN", "guiaRemision"),
@@ -33,6 +34,8 @@ public enum TipoDocumentoEnum {
         switch (codigo) {
             case "01":
                 return TipoDocumentoEnum.FACTURA;
+            case "03":
+                return TipoDocumentoEnum.LIQUIDACIONCOMPRA;
             case "04":
                 return TipoDocumentoEnum.CREDITO;
             case "05":

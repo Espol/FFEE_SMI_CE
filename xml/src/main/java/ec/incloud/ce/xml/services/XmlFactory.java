@@ -11,6 +11,7 @@ import ec.incloud.ce.bean.factura.Factura;
 import ec.incloud.ce.bean.facturaExportacion.FacturaExportacion;
 import ec.incloud.ce.bean.facturaReembolso.FacturaReembolso;
 import ec.incloud.ce.bean.guia.GuiaRemision;
+import ec.incloud.ce.bean.liquidacionCompra.LiquidacionCompra;
 import ec.incloud.ce.bean.retencion.ComprobanteRetencion;
 
 /**
@@ -48,5 +49,9 @@ public class XmlFactory {
 
     public static XmlServices<ComprobanteRetencion> getRetencionServices() {
         return RetencionXml.create();
+    }
+    
+    public static XmlServices<LiquidacionCompra> getLiquidacionCompraService() {
+    	return LiquidacionCompraXML.create();
     }
 }

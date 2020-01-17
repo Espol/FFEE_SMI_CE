@@ -66,17 +66,6 @@ class FacturaEmision implements Emision<Factura> {
 
     @Override
     public Respuesta emitir(
-    		
-//    		Factura factura, 
-//            String fechaRegistro, 
-//            String usuarioSap, 
-//            String terminal, 
-//            String cliente,
-//            String mail,
-//            String docSap,
-//            String clase,
-//            String montoTotal
-            
             Factura factura, 
 			Referencia referencia, 
 			String usuarioSap, 

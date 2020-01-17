@@ -30,6 +30,7 @@
 			<artifactId>pdf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
 <!-- 		<groupId>${project.groupId}</groupId> -->
 <!-- 		<artifactId>recepcion-prd</artifactId> -->
@@ -40,6 +41,8 @@
 <!-- 		<artifactId>recepcion-prd-on</artifactId> -->
 <!-- 		<version>${project.version}</version> -->
 <!-- 		</dependency> -->
+		<!-- FIN PRODUCCION -->
+		<!-- PRUEBAS -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>recepcion-qas</artifactId>
@@ -50,6 +53,7 @@
 			<artifactId>recepcion-qas-on</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- FIN PRUEBAS -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>validacion</artifactId>
@@ -76,6 +80,7 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
 <!-- 		<groupId>${project.groupId}</groupId> -->
 <!-- 		<artifactId>autorizacion-prd</artifactId> -->
@@ -86,6 +91,8 @@
 <!-- 		<artifactId>autorizacion-prd-on</artifactId> -->
 <!-- 		<version>${project.version}</version> -->
 <!-- 		</dependency> -->
+		<!-- FIN PRODUCCION -->
+		<!-- PRUEBAS -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>autorizacion-qas</artifactId>
@@ -96,6 +103,7 @@
 			<artifactId>autorizacion-qas-on</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- FIN PRUEBAS -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>notificacion</artifactId>

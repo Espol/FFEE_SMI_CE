@@ -212,8 +212,10 @@ class DocumentoServicesImpl implements DocumentoServices {
 
     @Override
     public boolean generarPdf(Documento documento, AckSRI ackAutorizacion,Usuario usuario) throws IntegradorException {
-        XmlServices xmlServices = null;
-        PdfServices pdfServices = null;
+        @SuppressWarnings("rawtypes")
+		XmlServices xmlServices = null;
+        @SuppressWarnings("rawtypes")
+		PdfServices pdfServices = null;
         String ruc = documento.getSociedad().getRuc();
         
         switch (documento.getTipoDocumento()) {
@@ -228,6 +230,10 @@ class DocumentoServicesImpl implements DocumentoServices {
                     xmlServices = XmlFactory.getFacturaReembolsoXmlServices();
                     pdfServices = PdfFactory.createPdfFacturaReembolsoServices(  );   
             	}
+                break;
+            case "03":
+                xmlServices = XmlFactory.getLiquidacionCompraService();
+                pdfServices = PdfFactory.createPdfLiquidacionCompra();
                 break;
             case "04":
                 xmlServices = XmlFactory.getNotaCreditoXmlServices();

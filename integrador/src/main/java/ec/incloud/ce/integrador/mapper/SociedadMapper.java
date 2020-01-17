@@ -47,6 +47,7 @@ public interface SociedadMapper {
         @Result(property = "mailCredito", column = "MAIL_CREDITO"),
         @Result(property = "mailDebito", column = "MAIL_DEBITO"),
         @Result(property = "mailGuia", column = "MAIL_GUIA"),
+        @Result(property = "mailLiquidacionCompra", column = "MAIL_LIQUIDACIONCOMPRA"),
         
         @Result(property = "esquema", column = "ESQUEMA_PROC"),
         

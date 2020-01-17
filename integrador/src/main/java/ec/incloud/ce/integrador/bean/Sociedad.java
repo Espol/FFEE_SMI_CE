@@ -31,6 +31,7 @@ public class Sociedad {
     private String mailCredito;
     private String mailDebito;
     private String mailGuia;
+    private String mailLiquidacionCompra;
     
     private int intervalNotifFirma;
     private int iniNotifFirma;
@@ -249,5 +250,13 @@ public class Sociedad {
 
 	public void setTextoRide(String textoRide) {
 		this.textoRide = textoRide;
+	}
+
+	public String getMailLiquidacionCompra() {
+		return mailLiquidacionCompra;
+	}
+
+	public void setMailLiquidacionCompra(String mailLiquidacionCompra) {
+		this.mailLiquidacionCompra = mailLiquidacionCompra;
 	}
 }

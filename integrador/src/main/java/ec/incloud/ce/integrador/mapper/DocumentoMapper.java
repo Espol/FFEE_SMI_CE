@@ -140,6 +140,7 @@ public interface DocumentoMapper {
         @Result(property = "sociedad.mailCredito", column = "MAIL_CREDITO"),
         @Result(property = "sociedad.mailDebito", column = "MAIL_DEBITO"),
         @Result(property = "sociedad.mailGuia", column = "MAIL_GUIA"),
+        @Result(property = "sociedad.mailLiquidacionCompra", column = "MAIL_LIQUIDACIONCOMPRA"),
 
         @Result(property = "sociedad.url", column = "url"),
         

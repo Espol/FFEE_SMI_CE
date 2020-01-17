@@ -19,6 +19,7 @@ import ec.incloud.ce.bean.factura.Factura;
 import ec.incloud.ce.bean.facturaExportacion.FacturaExportacion;
 import ec.incloud.ce.bean.facturaReembolso.FacturaReembolso;
 import ec.incloud.ce.bean.guia.GuiaRemision;
+import ec.incloud.ce.bean.liquidacionCompra.LiquidacionCompra;
 import ec.incloud.ce.bean.retencion.ComprobanteRetencion;
 import ec.incloud.ce.integrador.bean.Respuesta;
 import ec.incloud.ce.integrador.on.Emision;
@@ -37,15 +38,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
 
     @WebMethod(operationName = "EmitirFactura")
     public Respuesta EmitirFactura(
-//    		@WebParam(name = "factura") Factura factura,
-//            @WebParam(name = "registro") String registro,//fecha documento
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,//referencia
-//            @WebParam(name = "clase") String clase
-            
             @WebParam(name = "factura") Factura factura,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -65,15 +57,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
 
     @WebMethod(operationName = "EmitirFacturaExportacion")
     public Respuesta EmitirFacturaExportacion(
-//    		@WebParam(name = "factura") Factura factura,
-//            @WebParam(name = "registro") String registro,//fecha documento
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,//referencia
-//            @WebParam(name = "clase") String clase
-            
             @WebParam(name = "facturaExportacion") FacturaExportacion facturaExportacion,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -93,15 +76,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
 
     @WebMethod(operationName = "EmitirFacturaReembolso")
     public Respuesta EmitirFacturaReembolso(
-//    		@WebParam(name = "factura") Factura factura,
-//            @WebParam(name = "registro") String registro,//fecha documento
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,//referencia
-//            @WebParam(name = "clase") String clase
-            
             @WebParam(name = "facturaReembolso") FacturaReembolso facturaReembolso,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -121,17 +95,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
 
     @WebMethod(operationName = "EmitirNotaCredito")
     public Respuesta EmitirNotaCredito(
-    		
-//    		@WebParam(name = "notaCredito") NotaCredito notaCredito,
-//            @WebParam(name = "registro") String registro,
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,
-//            @WebParam(name = "clase") String clase
-            
-
     		@WebParam(name = "notaCredito") NotaCredito notaCredito,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -151,17 +114,7 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
     }
 
     @WebMethod(operationName = "EmitirNotaDebito")
-    public Respuesta EmitirNotaDebito(
-    		
-//    		@WebParam(name = "notaDebito") NotaDebito notaDebito,
-//            @WebParam(name = "registro") String registro,
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,
-//            @WebParam(name = "clase") String clase
-            
+    public Respuesta EmitirNotaDebito(            
     		@WebParam(name = "notaDebito") NotaDebito notaDebito,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -174,7 +127,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
             @WebParam(name = "idUsuario") String idUsuario,
             @WebParam(name = "password") String password,
             @WebParam(name = "observacion") String observacion
-    		
     		) {
         Emision<NotaDebito> emision = EmisionFactoryOnLine.createEmisionNotaDebito(); 
         return emision.emitir(notaDebito, referencia, usuario, terminal, codInterlocutor, mails, emailPortal, montoTotal, userPortal, idUsuario, password, observacion);
@@ -182,15 +134,6 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
 
     @WebMethod(operationName = "EmitirGuiaRemision")
     public Respuesta EmitirGuiaRemision(
-//    		@WebParam(name = "guiaRemision") GuiaRemision guiaRemision,
-//            @WebParam(name = "registro") String registro,
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,
-//            @WebParam(name = "clase") String clase            
-
     		@WebParam(name = "guiaRemision") GuiaRemision guiaRemision,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -209,17 +152,7 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
     }
 
     @WebMethod(operationName = "EmitirRetencion")
-    public Respuesta EmitirRetencion(
-//    		@WebParam(name = "retencion") ComprobanteRetencion retencion,
-//            @WebParam(name = "registro") String registro,
-//            @WebParam(name = "usuario") String usuario,
-//            @WebParam(name = "terminal") String terminal,
-//            @WebParam(name = "interlocutor") String interlocutor,
-//            @WebParam(name = "mail") String mail,
-//            @WebParam(name = "docSap") String docSap,
-//            @WebParam(name = "clase") String clase,
-//            @WebParam(name = "montoTotal") String montoTotal
-   
+    public Respuesta EmitirRetencion(   
     		@WebParam(name = "comprobanteRetencion") ComprobanteRetencion comprobanteRetencion,
             @WebParam(name = "referencia") Referencia referencia,
             @WebParam(name = "usuario") String usuario,
@@ -237,5 +170,20 @@ public class EmisionComprobanteSAPWS extends AcceptMessage {
     		) {
         Emision<ComprobanteRetencion> emision = EmisionFactoryOnLine.createEmisionRetencion();
         return emision.emitir(comprobanteRetencion, referencia, usuario, terminal, codInterlocutor, mails, emailPortal, montoTotal, userPortal, idUsuario, password, observacion);
+    }
+    
+    @WebMethod(operationName = "EmitirLiquidacionCompra")
+    public Respuesta EmitirLiquidacionCompra(
+    		 @WebParam(name = "liquidacionCompra") LiquidacionCompra liquidacionCompra,
+             @WebParam(name = "referencia") Referencia referencia,
+             @WebParam(name = "usuario") String usuario,
+             @WebParam(name = "terminal") String terminal,
+             @WebParam(name = "codInterlocutor") String codInterlocutor,
+             @WebParam(name = "emailDestino") String mails,
+             @WebParam(name = "montoTotal") String montoTotal,
+             @WebParam(name = "observacion") String observacion
+    		) {
+    	Emision<LiquidacionCompra> emision = EmisionFactoryOnLine.createEmisionLiquidacionCompra();
+    	return emision.emitir(liquidacionCompra, referencia, usuario, terminal, codInterlocutor, mails, "", montoTotal, "", "", "", observacion);
     }
 }
