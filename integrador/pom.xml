@@ -30,16 +30,18 @@
 			<artifactId>pdf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>recepcion-prd</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>recepcion-prd</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>recepcion-prd-on</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>recepcion-prd-on</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
+		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>recepcion-qas</artifactId>
@@ -50,6 +52,7 @@
 			<artifactId>recepcion-qas-on</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>validacion</artifactId>
@@ -76,16 +79,18 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>autorizacion-prd</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>autorizacion-prd</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>autorizacion-prd-on</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>autorizacion-prd-on</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
+		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>autorizacion-qas</artifactId>
@@ -96,6 +101,7 @@
 			<artifactId>autorizacion-qas-on</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>notificacion</artifactId>
@@ -106,6 +112,11 @@
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
         </dependency> 
+        <dependency>
+            <groupId>com.smi.ws.sap.prd</groupId>
+            <artifactId>ConexionSAP-PRD</artifactId>
+            <version>1.0</version>
+        </dependency>
 	</dependencies>
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>

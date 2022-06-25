@@ -63,8 +63,20 @@ public class RetencionPdfServices implements PdfServices<ComprobanteRetencion> {
         } catch (FileNotFoundException | JRException ex) {
             log.error("Error al cargar jasper report ", ex);
         }
+        
+        String texto_ride = "";
+        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
+        /************ TEXTO RIDE DESDE SAP *******************/
+        if ( lstInfoAdicional != null ) {
+            for (CampoAdicional ac : lstInfoAdicional) {
+            	if(ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP")) {
+            		texto_ride = ac.getValue();
+            	}
+            }
+        }
+        /************ TEXTO RIDE DESDE SAP *******************/
     	
-    	Map<String, Object> param = new HashMap();
+    	Map<String, Object> param = new HashMap<>();
     	
         param.put("urlSociedad", sociedad[1]==null?"":sociedad[1] );
         param.put("USUARIO", sociedad[3]==null?"":sociedad[3] );
@@ -81,14 +93,12 @@ public class RetencionPdfServices implements PdfServices<ComprobanteRetencion> {
         param.put("fechaAutorizacion", fechaAutorizacion);
         param.put("fechaEmision", comprobante.getInfoCompRetencion().getFechaEmision());
         param.put("contribuyenteEspecial", comprobante.getInfoCompRetencion().getContribuyenteEspecial());
-        param.put("textoRide", sociedad[2]==null?"":sociedad[2]);
+        param.put("textoRide", texto_ride.equals("") ? (sociedad[2]==null?"":sociedad[2]) : texto_ride );
         param.put("llevaContabilidad", comprobante.getInfoCompRetencion().getObligadoContabilidad());
         param.put("nombreCliente", comprobante.getInfoCompRetencion().getRazonSocialSujetoRetenido());
         param.put("identificacionCliente", comprobante.getInfoCompRetencion().getIdentificacionSujetoRetenido());
         param.put("serieCorrelativo", MessageFormat.format("{0}-{1}-{2}", comprobante.getInfoTributaria().getEstab(), comprobante.getInfoTributaria().getPtoEmi(), comprobante.getInfoTributaria().getSecuencial()));
 
-        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
-        
         String obsDocumento = ( documento ==null || documento.length < 1 || documento[0].isEmpty() ) ? null:documento[0];// obsComprobante es un info adicional si tiene más de 300 caracteres
         
         if( obsDocumento!=null ){
@@ -100,13 +110,15 @@ public class RetencionPdfServices implements PdfServices<ComprobanteRetencion> {
         }
         
         if ( lstInfoAdicional != null) {
-            List adicional = new ArrayList();
+            List<Map<String, String>> adicional = new ArrayList<>();
             Map<String, String> row;
             for (CampoAdicional ac : lstInfoAdicional) {
-                row = new HashMap<>();
-                row.put("valor", ac.getValue());
-                row.put("nombre", ac.getNombre());
-                adicional.add(row);
+            	if( !ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP") ) {
+            		row = new HashMap<>();
+                    row.put("valor", ac.getValue());
+                    row.put("nombre", ac.getNombre());
+                    adicional.add(row);
+            	}
             }
             param.put("campoAdicional", adicional);
         }
@@ -123,7 +135,7 @@ public class RetencionPdfServices implements PdfServices<ComprobanteRetencion> {
             	if(ir.getCodDocSustento()==null || ir.getCodDocSustento().isEmpty() )
             		log.error("error_usuario_1:campo:codDocSustento, del impuesto retenido es nulo");
             	
-                row = new HashMap();
+                row = new HashMap<>();
                 //TipoDocumentoRetencionEnum sólo tiene tipo doc 01, 03 y 05. A pedido de la gente SAP, y han asegurado q no existe otro escenario
                 row.put("nombreComprobante", TipoDocumentoRetencionEnum.getTipo(ir.getCodDocSustento()).getDescripcion());
                 row.put("baseImponible", ir.getBaseImponible());

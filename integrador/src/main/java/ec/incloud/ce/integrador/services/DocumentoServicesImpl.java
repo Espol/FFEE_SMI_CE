@@ -574,6 +574,8 @@ class DocumentoServicesImpl implements DocumentoServices {
             sociedad[4] = "block";
         }
         
+        logger.info("adjunto XML: " + documento.getXml());
+        logger.info("adjunto PDF: " + documento.getPdf());
         return notifica.enviarCorreo(
         						sociedad,
 									this.getMailProperties(ms), 
