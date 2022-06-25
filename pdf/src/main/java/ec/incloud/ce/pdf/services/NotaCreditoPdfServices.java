@@ -64,7 +64,17 @@ public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
             log.error("Error al cargar jasper report ", ex);
         }
     	
-    	
+        String texto_ride = "";
+        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
+        /************ TEXTO RIDE DESDE SAP *******************/
+        if ( lstInfoAdicional != null ) {
+            for (CampoAdicional ac : lstInfoAdicional) {
+            	if(ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP")) {
+            		texto_ride = ac.getValue();
+            	}
+            }
+        }
+        
         Map<String, Object> param = new HashMap<>();
 
         param.put("urlSociedad", sociedad[1]==null?"":sociedad[1] );
@@ -82,7 +92,7 @@ public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
         param.put("fechaAutorizacion", fechaAutorizacion);
         param.put("fechaEmision", comprobante.getInfoNotaCredito().getFechaEmision());
         param.put("contribuyenteEspecial", comprobante.getInfoNotaCredito().getContribuyenteEspecial());
-        param.put("textoRide", sociedad[2]==null?"":sociedad[2]);
+        param.put("textoRide", texto_ride.equals("") ? (sociedad[2]==null?"":sociedad[2]) : texto_ride );
         param.put("llevaContabilidad", comprobante.getInfoNotaCredito().getObligadoContabilidad());
         param.put("nombreCliente", comprobante.getInfoNotaCredito().getRazonSocialComprador());
         param.put("identificacionCliente", comprobante.getInfoNotaCredito().getIdentificacionComprador());
@@ -92,8 +102,6 @@ public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
         param.put("numeroDocumentoModificado", comprobante.getInfoNotaCredito().getNumDocModificado());
         param.put("razonModificacion", comprobante.getInfoNotaCredito().getMotivo());
 
-        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
-        
         String obsDocumento = ( documento == null || documento[0].isEmpty() ) ? null:documento[0];// obsComprobante es un info adicional si tiene más de 300 caracteres
         
         if( obsDocumento!=null ){
@@ -105,13 +113,15 @@ public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
         }
         
         if (lstInfoAdicional != null) {
-            List adicional = new ArrayList();
+            List<Map<String, String>> adicional = new ArrayList<>();
             Map<String, String> row;
             for (CampoAdicional ac : lstInfoAdicional) {
-                row = new HashMap<>();
-                row.put("valor", ac.getValue());
-                row.put("nombre", ac.getNombre());
-                adicional.add(row);
+            	if( !ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP") ) {
+            		row = new HashMap<>();
+                    row.put("valor", ac.getValue());
+                    row.put("nombre", ac.getNombre());
+                    adicional.add(row);
+            	}
             }
             param.put("campoAdicional", adicional);
         }

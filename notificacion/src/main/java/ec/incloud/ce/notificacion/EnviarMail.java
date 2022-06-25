@@ -88,8 +88,10 @@ class EnviarMail  {
                 log.debug("Adjuntando documentos");
                 for (int i = 0; i < archivoAdjunto.size(); i++) {
                     log.debug(MessageFormat.format("Adjuntando archivo {0}", (i + 1)));
+                    
 
                     if (archivoAdjunto.get(i) != null || !archivoAdjunto.get(i).trim().isEmpty()) {
+                    	log.info(MessageFormat.format("Nombre Archivo Adjuntado {0}", archivoAdjunto.get(i)));
                         BodyPart adjunto = new MimeBodyPart();
                         adjunto.setDataHandler(new DataHandler(new FileDataSource(archivoAdjunto.get(i))));
                         

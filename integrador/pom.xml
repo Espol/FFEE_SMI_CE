@@ -32,14 +32,14 @@
 		</dependency>
 		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>recepcion-prd</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>recepcion-prd</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>recepcion-prd-on</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>recepcion-prd-on</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 		<!-- FIN PRODUCCION -->
 		<!-- PRUEBAS -->
@@ -82,14 +82,14 @@
 		</dependency>
 		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>autorizacion-prd</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>autorizacion-prd</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 <!-- 		<dependency> -->
-<!-- 		<groupId>${project.groupId}</groupId> -->
-<!-- 		<artifactId>autorizacion-prd-on</artifactId> -->
-<!-- 		<version>${project.version}</version> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>autorizacion-prd-on</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
 <!-- 		</dependency> -->
 		<!-- FIN PRODUCCION -->
 		<!-- PRUEBAS -->
@@ -114,6 +114,11 @@
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
         </dependency> 
+        <dependency>
+            <groupId>com.smi.ws.sap.prd</groupId>
+            <artifactId>ConexionSAP-PRD</artifactId>
+            <version>1.0</version>
+        </dependency>
 	</dependencies>
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
