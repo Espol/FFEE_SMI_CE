@@ -61,7 +61,19 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
             log.error("Error al cargar jasper report ", ex);
         }
         
-        Map<String, Object> param = new HashMap();
+        String texto_ride = "";
+        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
+        /************ TEXTO RIDE DESDE SAP *******************/
+        if ( lstInfoAdicional != null ) {
+            for (CampoAdicional ac : lstInfoAdicional) {
+            	if(ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP")) {
+            		texto_ride = ac.getValue();
+            	}
+            }
+        }
+        /************ TEXTO RIDE DESDE SAP *******************/
+        
+        Map<String, Object> param = new HashMap<String, Object>();
         
         param.put("urlSociedad", sociedad[1]==null?"":sociedad[1] );
         param.put("USUARIO", sociedad[3]==null?"":sociedad[3] );
@@ -78,7 +90,7 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
         param.put("fechaAutorizacion", fechaAutorizacion);
         param.put("fechaEmision", comprobante.getInfoGuiaRemision().getFechaIniTransporte());
         param.put("contribuyenteEspecial", comprobante.getInfoGuiaRemision().getContribuyenteEspecial());
-        param.put("textoRide", sociedad[2]==null?"":sociedad[2]);
+        param.put("textoRide", texto_ride.equals("") ? (sociedad[2]==null?"":sociedad[2]) : texto_ride);
         param.put("llevaContabilidad", comprobante.getInfoGuiaRemision().getObligadoContabilidad());
         param.put("serieCorrelativo", MessageFormat.format("{0}-{1}-{2}", comprobante.getInfoTributaria().getEstab(), comprobante.getInfoTributaria().getPtoEmi(), comprobante.getInfoTributaria().getSecuencial()));
         param.put("rucTransportista", comprobante.getInfoGuiaRemision().getRucTransportista());
@@ -87,8 +99,6 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
         param.put("fechaInicioTransporte", comprobante.getInfoGuiaRemision().getFechaIniTransporte());
         param.put("placa", comprobante.getInfoGuiaRemision().getPlaca());
         param.put("fechaFinTransporte", comprobante.getInfoGuiaRemision().getFechaFinTransporte());
-        
-        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
         
         String obsDocumento = ( documento == null || documento[0].isEmpty() ) ? null:documento[0];// obsComprobante es un info adicional si tiene más de 300 caracteres
         
@@ -101,13 +111,15 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
         }
         
         if ( lstInfoAdicional != null) {
-            List adicional = new ArrayList();
+            List<Map> adicional = new ArrayList<Map>();
             Map<String, String> row;
             for (CampoAdicional ac : lstInfoAdicional) {
                 row = new HashMap<>();
-                row.put("valor", ac.getValue());
-                row.put("nombre", ac.getNombre());
-                adicional.add(row);
+                if( !ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP") ) {
+                	row.put("valor", ac.getValue());
+                    row.put("nombre", ac.getNombre());
+                    adicional.add(row);
+                }
             }
             param.put("campoAdicional", adicional);
         }
@@ -117,7 +129,7 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
 
         if (comprobante.getDestinatarios() != null) {
             for (Destinatario des : comprobante.getDestinatarios()) {
-                row_ = new HashMap();
+                row_ = new HashMap<String, Object>();
                 row_.put("nombreComprobante", des.getCodDocSustento() == null ? "" : TipoDocumentoEnum.getTipo(des.getCodDocSustento()).getDescripcion());
                 row_.put("numDocSustento", des.getNumDocSustento());
                 row_.put("numeroAutorizacion", des.getNumAutDocSustento());
@@ -132,10 +144,10 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
                 row_.put("codigoEstab", des.getCodEstabDestino());
                 row_.put("ruta", des.getRuta());
 
-                List<Map<String, String>> detalles = new ArrayList();
+                List<Map<String, String>> detalles = new ArrayList<>();
                 Map<String, String> row;
                 for (GuiaRemisionDetalle det : des.getDetalles()) {
-                    row = new HashMap();
+                    row = new HashMap<String, String>();
                     row.put("cantidad", FormatNumberUtil.formatMilDecimal(det.getCantidad()));
                     row.put("codigoPrincipal", det.getCodigoInterno());
                     row.put("codigoAuxiliar", det.getCodigoAdicional());

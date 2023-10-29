@@ -66,6 +66,18 @@ class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
             log.error("Error al cargar jasper report ", ex);
         }
         
+        String texto_ride = "";
+        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
+        /************ TEXTO RIDE DESDE SAP *******************/
+        if ( lstInfoAdicional != null ) {
+            for (CampoAdicional ac : lstInfoAdicional) {
+            	if(ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP")) {
+            		texto_ride = ac.getValue();
+            	}
+            }
+        }
+        /************ TEXTO RIDE DESDE SAP *******************/
+        
     	Map<String, Object> param = new HashMap<>();
         param.put("urlSociedad", sociedad[1]==null?"":sociedad[1] );
         param.put("USUARIO", sociedad[3]==null?"":sociedad[3] );
@@ -82,7 +94,7 @@ class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
         param.put("fechaAutorizacion", fechaAutorizacion);
         param.put("fechaEmision", comprobante.getInfoFactura().getFechaEmision());
         param.put("contribuyenteEspecial", comprobante.getInfoFactura().getContribuyenteEspecial());
-        param.put("textoRide", sociedad[2]==null?"":sociedad[2]);
+        param.put("textoRide", texto_ride.equals("") ? (sociedad[2]==null?"":sociedad[2]) : texto_ride);
         param.put("llevaContabilidad", comprobante.getInfoFactura().getObligadoContabilidad());
         param.put("guiaRemision", comprobante.getInfoFactura().getGuiaRemision());
         param.put("nombreCliente", comprobante.getInfoFactura().getRazonSocialComprador());
@@ -96,8 +108,6 @@ class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
         param.put("terminoNegociacion", comprobante.getInfoFactura().getIncoTermFactura()!=null?comprobante.getInfoFactura().getIncoTermFactura() + " " + comprobante.getInfoFactura().getLugarIncoTerm() : "" );
         param.put("puertoDestino", comprobante.getInfoFactura().getPuertoDestino()!=null?comprobante.getInfoFactura().getPuertoDestino():"" );
         
-        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
-        
         String obsDocumento = ( documento == null || documento[0].isEmpty() ) ? null:documento[0];// obsComprobante es un info adicional si tiene más de 300 caracteres
         
         if( obsDocumento!=null ){
@@ -109,13 +119,15 @@ class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
         }
         
         if (lstInfoAdicional != null) {
-            List adicional = new ArrayList();
+            List<Map<String, String>> adicional = new ArrayList<>();
             Map<String, String> row;
             for (CampoAdicional ac : lstInfoAdicional) {
-                row = new HashMap<>();
-                row.put("valor", ac.getValue());
-                row.put("nombre", ac.getNombre());
-                adicional.add(row);
+            	if( !ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP") ) {
+            		row = new HashMap<>();
+                    row.put("valor", ac.getValue());
+                    row.put("nombre", ac.getNombre());
+                    adicional.add(row);
+            	}
             }
             param.put("campoAdicional", adicional);
         }
@@ -125,7 +137,7 @@ class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
         Map<String, Object> row;
 
         for (FacturaExportacionDetalle fd : comprobante.getDetalles()) {
-            row = new HashMap();
+            row = new HashMap<>();
             row.put("codigoPrincipal", fd.getCodigoPrincipal());
             row.put("codigoAuxiliar", fd.getCodigoAuxiliar());
             row.put("cantidad", FormatNumberUtil.formatMilDecimal(fd.getCantidad()));

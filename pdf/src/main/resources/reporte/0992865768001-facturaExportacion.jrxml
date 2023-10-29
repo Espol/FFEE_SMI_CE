@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="7" bottomMargin="7" uuid="29b83213-5399-45a6-9178-750fcb5c86ef">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="336"/>
+	<property name="ireport.y" value="55"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -151,25 +151,25 @@
 				<reportElement mode="Transparent" x="0" y="186" width="285" height="110" uuid="733d2130-c0ec-4dc9-83a0-7feb82a4db9c"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Transparent" x="7" y="210" width="80" height="14" uuid="ff276eb1-29b8-4199-8ac3-1736623cc62f"/>
+				<reportElement mode="Transparent" x="7" y="210" width="56" height="14" uuid="ff276eb1-29b8-4199-8ac3-1736623cc62f"/>
 				<textElement verticalAlignment="Top">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Direc. Matriz:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="7" y="274" width="143" height="16" uuid="52029969-73a6-4545-a5e6-f1747a67de95">
+				<reportElement mode="Transparent" x="7" y="274" width="120" height="16" uuid="52029969-73a6-4545-a5e6-f1747a67de95">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nro Contribuyente Especial:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="7" y="253" width="106" height="16" uuid="0e114bc8-dcda-4d5b-a0c9-c36bc18e84b9"/>
+				<reportElement mode="Transparent" x="7" y="253" width="80" height="16" uuid="0e114bc8-dcda-4d5b-a0c9-c36bc18e84b9"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lleva Contabilidad:]]></text>
 			</staticText>
@@ -217,25 +217,25 @@
 				<textFieldExpression><![CDATA[$P{razonSocial}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="94" y="210" width="184" height="24" uuid="3163a2d1-47f2-4225-84f7-c1aae7beea1d"/>
+				<reportElement mode="Transparent" x="63" y="210" width="215" height="24" uuid="3163a2d1-47f2-4225-84f7-c1aae7beea1d"/>
 				<textElement verticalAlignment="Top">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="167" y="275" width="76" height="16" uuid="e8971dd2-3ec0-49f5-be1d-d297c86adacb">
+				<reportElement mode="Transparent" x="127" y="274" width="116" height="16" uuid="e8971dd2-3ec0-49f5-be1d-d297c86adacb">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{contribuyenteEspecial}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="127" y="253" width="116" height="16" uuid="a7b03f5a-814c-4817-b1f9-e075e104e082"/>
+				<reportElement mode="Transparent" x="87" y="253" width="156" height="16" uuid="a7b03f5a-814c-4817-b1f9-e075e104e082"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{llevaContabilidad}]]></textFieldExpression>
 			</textField>
@@ -391,7 +391,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="7" y="235" width="271" height="16" uuid="5040e8de-ee24-44f5-bd2f-5f37ebf206fc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
+					<font size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>

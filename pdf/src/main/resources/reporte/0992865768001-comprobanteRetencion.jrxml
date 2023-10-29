@@ -218,9 +218,9 @@
 				<text><![CDATA[COMPROBANTE DE RETENCIÓN]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="94" y="212" width="184" height="26" uuid="2be1238a-a987-4636-9887-74bbd693162d"/>
+				<reportElement x="70" y="212" width="208" height="26" uuid="2be1238a-a987-4636-9887-74bbd693162d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -232,43 +232,50 @@
 				<textFieldExpression><![CDATA[$P{razonSocial}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="7" y="212" width="80" height="16" uuid="303e9e1b-280d-4f36-92a4-bcfa2675d0c4"/>
+				<reportElement x="7" y="212" width="60" height="16" uuid="303e9e1b-280d-4f36-92a4-bcfa2675d0c4"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Direc. Matriz:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="7" y="276" width="171" height="16" uuid="b4612ffb-bef4-4097-b41b-33b9a24cd771">
+				<reportElement x="7" y="276" width="118" height="16" uuid="b4612ffb-bef4-4097-b41b-33b9a24cd771">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Contribuyente Especial Nro:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="7" y="258" width="97" height="16" uuid="da2895b9-9bb2-4a93-aa6e-16d95b08973b"/>
+				<reportElement x="7" y="258" width="80" height="16" uuid="da2895b9-9bb2-4a93-aa6e-16d95b08973b"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lleva Contabilidad:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="116" y="258" width="162" height="16" uuid="e39571a0-c6be-46a6-8b9e-8feb24c788a5"/>
+				<reportElement x="94" y="258" width="184" height="16" uuid="e39571a0-c6be-46a6-8b9e-8feb24c788a5"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{llevaContabilidad}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="202" y="276" width="76" height="16" uuid="2e4fd068-a66f-4559-86fe-42eb9e4e8933">
+				<reportElement x="125" y="276" width="153" height="16" uuid="2e4fd068-a66f-4559-86fe-42eb9e4e8933">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{contribuyenteEspecial}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="7" y="240" width="271" height="16" uuid="ef9a5e55-07f8-4d0a-bdc7-31f7665bcbd5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

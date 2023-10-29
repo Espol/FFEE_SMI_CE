@@ -53,6 +53,13 @@ public class EnvioRecepcionThread implements Runnable {
     	
     	String mailNotificacion = Util.INSTANCE.getMailByTypeDoc(documento);    	
     	documento.getSociedad().setMailNotificacion( mailNotificacion );
+    	
+    	System.setProperty("javax.net.ssl.keyStore", "C:\\Program Files\\Java\\jdk1.7.0_51\\jre\\lib\\security\\cacerts");
+        System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
+        System.setProperty("javax.net.ssl.trustStore", "C:\\Program Files\\Java\\jdk1.7.0_51\\jre\\lib\\security\\cacerts");
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+    	
+    	CertificadosSSL.instalarCertificados();
         
     	if( documento.getEsquemaProc() == 0){
     		//INICIO ON-LINE
@@ -242,13 +249,16 @@ public class EnvioRecepcionThread implements Runnable {
                     documentoServices.actualizarEstadoEnvioErrorSriRecepcion(documento);
                 }
             } catch (RecepcionException ex) {
-                log.error("Error al enviar a recepcion offline", ex);
+                log.info("Error al enviar a recepcion offline", ex);
+//                log.error("Error al enviar a recepcion offline", ex);
                 try {
                     documentoServices.actualizarEstadoEnvioErrorSriRecepcion(documento);
                 } catch (IntegradorException e) {
+                	log.info("Error al actualizar el documento", ex);
                     log.error(e);
                 }
             } catch (NumberFormatException | IntegradorException e) {
+            	log.info("Error al enviar a recepcion offline", e);
                 log.error(e);
             }
     		//FIN OFF-LINE
@@ -259,3 +269,5 @@ public class EnvioRecepcionThread implements Runnable {
         return documentoServices;
     }
 }
+
+

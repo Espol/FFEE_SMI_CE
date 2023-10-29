@@ -150,11 +150,11 @@
 				<imageExpression><![CDATA[$P{ruc}+"-barra1.png"]]></imageExpression>
 			</image>
 			<textField isBlankWhenNull="true">
-				<reportElement x="168" y="275" width="76" height="16" uuid="fa4c3626-c139-4155-b11d-7db75cd94a0f">
+				<reportElement x="123" y="275" width="121" height="16" uuid="fa4c3626-c139-4155-b11d-7db75cd94a0f">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{contribuyenteEspecial}]]></textFieldExpression>
 			</textField>
@@ -171,9 +171,9 @@
 				<text><![CDATA[R.U.C.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="256" width="103" height="16" uuid="0e52f37a-f2e5-456e-890c-7cb40e4e686b"/>
+				<reportElement x="8" y="256" width="84" height="16" uuid="0e52f37a-f2e5-456e-890c-7cb40e4e686b"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lleva Contabilidad:]]></text>
 			</staticText>
@@ -189,9 +189,9 @@
 				<imageExpression><![CDATA[$P{ruc}+"-logo.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="8" y="210" width="80" height="18" uuid="d3d6d1c0-6950-4792-bcf8-61936d52ab9b"/>
+				<reportElement x="8" y="210" width="65" height="18" uuid="d3d6d1c0-6950-4792-bcf8-61936d52ab9b"/>
 				<textElement verticalAlignment="Top">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Direc. Matriz:]]></text>
 			</staticText>
@@ -235,9 +235,9 @@
 				<text><![CDATA[CLAVE DE ACCESO]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="122" y="256" width="122" height="16" uuid="9c6aedc0-e6f0-48e6-9fae-3b438fd24355"/>
+				<reportElement x="92" y="256" width="152" height="16" uuid="9c6aedc0-e6f0-48e6-9fae-3b438fd24355"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{llevaContabilidad}]]></textFieldExpression>
 			</textField>
@@ -263,11 +263,11 @@
 				<textFieldExpression><![CDATA[($P{fechaAutorizacion} ==null)?"NO ENVIADO":$P{fechaAutorizacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="8" y="275" width="143" height="16" uuid="baed695e-1c82-4484-9760-74c577d657f9">
+				<reportElement x="8" y="275" width="115" height="16" uuid="baed695e-1c82-4484-9760-74c577d657f9">
 					<printWhenExpression><![CDATA[$P{contribuyenteEspecial}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nro Contribuyente Especial:]]></text>
 			</staticText>
@@ -284,9 +284,9 @@
 				<textFieldExpression><![CDATA[$P{razonSocial}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="95" y="211" width="184" height="24" uuid="296f67a0-78ad-43b1-80de-221170634775"/>
+				<reportElement x="73" y="210" width="206" height="24" uuid="296f67a0-78ad-43b1-80de-221170634775"/>
 				<textElement verticalAlignment="Top">
-					<font size="8" isBold="false"/>
+					<font size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccionMatriz}]]></textFieldExpression>
 			</textField>
@@ -325,7 +325,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="9" y="238" width="270" height="16" uuid="2f7e8d89-5507-4e41-8050-0352986f11d5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
+					<font size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{textoRide}]]></textFieldExpression>
 			</textField>
