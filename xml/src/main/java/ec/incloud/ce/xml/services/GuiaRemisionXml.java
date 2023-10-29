@@ -27,7 +27,8 @@ import org.apache.log4j.Logger;
  */
 final class GuiaRemisionXml implements XmlServices<GuiaRemision> {
 
-    private static XmlServices instance;
+    @SuppressWarnings("rawtypes")
+	private static XmlServices instance;
     private final XStream xStream;
     private final Logger log = Logger.getLogger("integrador");
 
@@ -49,7 +50,8 @@ final class GuiaRemisionXml implements XmlServices<GuiaRemision> {
         xStream.omitField(GuiaRemision.class, "ds:Signature");
     }
 
-    public static XmlServices<GuiaRemision> create() {
+    @SuppressWarnings("unchecked")
+	public static XmlServices<GuiaRemision> create() {
         synchronized (GuiaRemisionXml.class) {
             if (instance == null) {
                 instance = new GuiaRemisionXml();

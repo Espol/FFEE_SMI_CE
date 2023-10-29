@@ -25,7 +25,8 @@ public class RecepcionServicesImpl implements RecepcionServices {
 
     private static RecepcionServices instance = null;
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final RecepcionComprobantesOfflineService services = new RecepcionComprobantesOfflineService();
+    private RecepcionComprobantesOfflineService services = null;
+//    private final RecepcionComprobantesOfflineService services = new RecepcionComprobantesOfflineService();
     private int second = 30;
 
     private RecepcionServicesImpl() {
@@ -51,6 +52,9 @@ public class RecepcionServicesImpl implements RecepcionServices {
     public RespuestaSolicitud validarComprobante(String pathAbsoluteXML) throws RecepcionException {
         RespuestaSolicitud respuesta = null;
         try {
+        	if(services == null) {
+            	services = new RecepcionComprobantesOfflineService();
+            }
             byte[] data = Files.readAllBytes(Paths.get(pathAbsoluteXML));
             RecepcionComprobantesOffline recepcionComprobantesOffline = services.getRecepcionComprobantesOfflinePort(); 
             Map<String, Object> requestContext = ((BindingProvider) recepcionComprobantesOffline).getRequestContext();

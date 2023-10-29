@@ -28,7 +28,8 @@ import org.apache.log4j.Logger;
  */
 final class NotaCreditoXml implements XmlServices<NotaCredito> {
 
-    private static XmlServices instance;
+    @SuppressWarnings("rawtypes")
+	private static XmlServices instance;
     private final XStream xStream;
     private final Logger log = Logger.getLogger("integrador");
 
@@ -51,7 +52,8 @@ final class NotaCreditoXml implements XmlServices<NotaCredito> {
         xStream.omitField(NotaCredito.class, "ds:Signature");
     }
 
-    public static XmlServices<NotaCredito> create() {
+    @SuppressWarnings("unchecked")
+	public static XmlServices<NotaCredito> create() {
         synchronized (NotaCreditoXml.class) {
             if (instance == null) {
                 instance = new NotaCreditoXml();

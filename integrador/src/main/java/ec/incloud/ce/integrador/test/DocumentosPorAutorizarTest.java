@@ -39,9 +39,7 @@ public class DocumentosPorAutorizarTest {
                 System.out.println("Mail Destino : " + doc.getMailDestino());
             }
             
-            int a = 0;
 		} catch (IntegradorException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
         

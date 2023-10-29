@@ -9,6 +9,7 @@ package ec.incloud.ce.sri.services;
  *
  * @author Incloud Services S.A.C.
  */
+@SuppressWarnings("serial")
 public class AutorizacionException extends Exception {
 
     private String code;

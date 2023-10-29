@@ -58,6 +58,13 @@ public class EnvioAutorizacionThread implements Runnable {
     	String mailNotificacion = Util.INSTANCE.getMailByTypeDoc(documento);    	
     	documento.getSociedad().setMailNotificacion( mailNotificacion );
     	
+    	System.setProperty("javax.net.ssl.keyStore", "C:\\Program Files\\Java\\jdk1.7.0_51\\jre\\lib\\security\\cacerts");
+        System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
+        System.setProperty("javax.net.ssl.trustStore", "C:\\Program Files\\Java\\jdk1.7.0_51\\jre\\lib\\security\\cacerts");
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+    	
+    	CertificadosSSL.instalarCertificados();
+    	
     	if( documento.getEsquemaProc() == 0){
     		//INICIO ON-LINE
     		
@@ -73,14 +80,12 @@ public class EnvioAutorizacionThread implements Runnable {
                     StringBuilder msg = new StringBuilder();
                     AckSRI ack = new AckSRI();
                     ack.setClaveAccesoConsultada(respuesta.getClaveAccesoConsultada());
-                    
-                    Date fechaAutorizacion = null;
-                    
+                                        
                     int i=0;
                     for (ec.gob.sri.comprobantes.ws.on.aut.Autorizacion x : respuesta.getAutorizaciones().getAutorizacion()) {
                         log.info("[Autorizacion] Estado de Autorizacion: " + MessageFormat.format("Documento: {0}, Estado: {1}", documento.getNumeroSap(), x.getEstado()));
                         
-                        fechaAutorizacion = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(x.getFechaAutorizacion()));
+                    //    fechaAutorizacion = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(x.getFechaAutorizacion()));
                         
                         ack.setEstado(x.getEstado());
                         ack.setNumeroAutorizacion(x.getNumeroAutorizacion());

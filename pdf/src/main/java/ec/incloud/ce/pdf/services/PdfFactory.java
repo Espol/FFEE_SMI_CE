@@ -21,27 +21,33 @@ public class PdfFactory {
         return FacturaPdfServices.create();
     }
 
+	@SuppressWarnings("rawtypes")
 	public static PdfServices createPdfFacturaExportacionServices() {
 		return FacturaExportacionPdfServices.create();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static PdfServices createPdfFacturaReembolsoServices() {
 		return FacturaReembolsoPdfServices.create();
 	}
 
-    public static PdfServices<GuiaRemision> createPdfGuiaRemisionServices() {
+    @SuppressWarnings("unchecked")
+	public static PdfServices<GuiaRemision> createPdfGuiaRemisionServices() {
         return GuiaRemisionPdfServices.create();
     }
 
-    public static PdfServices<NotaCredito> createPdfNotaCreditoServices() {
+    @SuppressWarnings("unchecked")
+	public static PdfServices<NotaCredito> createPdfNotaCreditoServices() {
         return NotaCreditoPdfServices.create();
     }
 
-    public static PdfServices<NotaDebito> createPdfNotaDebitoServices() {
+    @SuppressWarnings("unchecked")
+	public static PdfServices<NotaDebito> createPdfNotaDebitoServices() {
         return NotaDebitoPdfServices.create();
     }
 
-    public static PdfServices<ComprobanteRetencion> createPdfComprobanteRetencionServices() {
+    @SuppressWarnings("unchecked")
+	public static PdfServices<ComprobanteRetencion> createPdfComprobanteRetencionServices() {
         return RetencionPdfServices.create();
     }
 }

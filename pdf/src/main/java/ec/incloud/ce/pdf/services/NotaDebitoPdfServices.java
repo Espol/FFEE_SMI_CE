@@ -38,10 +38,12 @@ import org.apache.log4j.Logger;
  */
 public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (NotaDebitoPdfServices.class) {
             if (instance == null) {
                 instance = new NotaDebitoPdfServices();
@@ -63,6 +65,17 @@ public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
             log.error("Error al cargar jasper report ", ex);
         }
     	
+        String texto_ride ="";
+        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
+        /************ TEXTO RIDE DESDE SAP *******************/
+        if ( lstInfoAdicional != null ) {
+            for (CampoAdicional ac : lstInfoAdicional) {
+            	if(ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP")) {
+            		texto_ride = ac.getValue();
+            	}
+            }
+        }
+        /************ TEXTO RIDE DESDE SAP *******************/
         Map<String, Object> param = new HashMap<>();
 
         param.put("urlSociedad", sociedad[1]==null?"":sociedad[1] );
@@ -80,7 +93,7 @@ public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
         param.put("fechaAutorizacion", fechaAutorizacion);
         param.put("fechaEmision", comprobante.getInfoNotaDebito().getFechaEmision());
         param.put("contribuyenteEspecial", comprobante.getInfoNotaDebito().getContribuyenteEspecial());
-        param.put("textoRide", sociedad[2]==null?"":sociedad[2]);
+        param.put("textoRide", texto_ride.equals("") ? (sociedad[2]==null?"":sociedad[2]) : texto_ride);
         param.put("llevaContabilidad", comprobante.getInfoNotaDebito().getObligadoContabilidad());
         param.put("nombreCliente", comprobante.getInfoNotaDebito().getRazonSocialComprador());
         param.put("identificacionCliente", comprobante.getInfoNotaDebito().getIdentificacionComprador());
@@ -89,8 +102,6 @@ public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
         param.put("documentoModificado", TipoDocumentoEnum.getTipo(comprobante.getInfoNotaDebito().getCodDocModificado()).getDescripcion());
         param.put("numeroDocumentoModificado", comprobante.getInfoNotaDebito().getNumDocModificado());
 
-        List<CampoAdicional> lstInfoAdicional = comprobante.getInfoAdicional();
-        
         String obsDocumento = ( documento ==null || documento.length < 1 || documento[0].isEmpty() ) ? null:documento[0];// obsComprobante es un info adicional si tiene más de 300 caracteres
         
         if( obsDocumento!=null ){
@@ -102,13 +113,15 @@ public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
         }
         
         if ( lstInfoAdicional != null) {
-            List adicional = new ArrayList();
+            List<Map<String, String>> adicional = new ArrayList<>();
             Map<String, String> row;
             for (CampoAdicional ac : lstInfoAdicional ) {
-                row = new HashMap<>();
-                row.put("valor", ac.getValue());
-                row.put("nombre", ac.getNombre());
-                adicional.add(row);
+            	if( !ac.getNombre().equalsIgnoreCase("TEXTO_RIDE_SAP") ) {
+            		row = new HashMap<>();
+                    row.put("valor", ac.getValue());
+                    row.put("nombre", ac.getNombre());
+                    adicional.add(row);
+            	}
             }
             param.put("campoAdicional", adicional);
         }
@@ -119,7 +132,7 @@ public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
 
         if (comprobante.getMotivos() != null) {
             for (Motivo mo : comprobante.getMotivos()) {
-                row = new HashMap();
+                row = new HashMap<>();
                 row.put("razonModificacion", mo.getRazon());
                 row.put("valorModificacion", mo.getValor());
                 detalle.add(row);

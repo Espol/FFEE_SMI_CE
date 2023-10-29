@@ -32,7 +32,8 @@ import ec.incloud.ce.xml.exception.XmlException;
  */
 public final class FacturaExportacionXml implements XmlServices<FacturaExportacion> {
 
-    private static XmlServices instance;
+    @SuppressWarnings("rawtypes")
+	private static XmlServices instance;
     private final XStream xStream;
     private final Logger log = Logger.getLogger("integrador");
 
@@ -55,7 +56,8 @@ public final class FacturaExportacionXml implements XmlServices<FacturaExportaci
         xStream.omitField(FacturaExportacion.class, "ds:Signature");
     }
 
-    public static XmlServices<FacturaExportacion> create() {
+    @SuppressWarnings("unchecked")
+	public static XmlServices<FacturaExportacion> create() {
         synchronized (FacturaExportacionXml.class) {
             if (instance == null) {
                 instance = new FacturaExportacionXml();

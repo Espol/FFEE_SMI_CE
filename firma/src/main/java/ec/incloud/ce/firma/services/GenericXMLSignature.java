@@ -16,8 +16,6 @@ import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.cert.X509Certificate;
-import java.util.Enumeration;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,6 +34,7 @@ import es.mityc.firmaJava.libreria.xades.DataToSign;
 import es.mityc.firmaJava.libreria.xades.FirmaXML;
 import es.mityc.javasign.pkstore.CertStoreException;
 import es.mityc.javasign.pkstore.IPKStoreManager;
+import es.mityc.javasign.pkstore.IPassStoreKS;
 import es.mityc.javasign.pkstore.keystore.KSStore;
 
 /**
@@ -275,37 +274,71 @@ public abstract class GenericXMLSignature {
      *
      * @return El gestor de claves que se va a utilizar</p>
      */
-    private IPKStoreManager getPKStoreManager() throws FirmaException {
-        IPKStoreManager storeManager = null;
-        String firma = this.getPathCertificado();
-        String clave = this.getClaveCertificado();
+//    private IPKStoreManager getPKStoreManager() throws FirmaException {
+//        IPKStoreManager storeManager = null;
+//        String firma = this.getPathCertificado();
+//        String clave = this.getClaveCertificado();
+//
+//        try {
+//
+//            if (clave == null || clave.trim().isEmpty()) {
+//                throw new FirmaException("Error al leer clave de firma electronica");
+//            }
+//
+//            if (!new File(firma).exists()) {
+//                throw new FirmaException("No existe el recurso firma electronica");
+//            }
+//
+//            KeyStore ks = KeyStore.getInstance("PKCS12");
+//            try {
+//                ks.load(new java.io.FileInputStream(firma), clave.toCharArray());
+//            } catch (Exception e) {
+//                throw new FirmaException("[ERROR] Las credenciales de las Firmas son Invalidas.");
+//            }
+//            storeManager = new KSStore(ks, new PassStoreKS(clave));
+//            for (Enumeration<String> e = ks.aliases(); e.hasMoreElements();) {
+//                String alias = e.nextElement();
+//            }
+//        } catch (Exception ex) {
+//            throw new FirmaException("" + ex.getMessage());
+//        }
+//        return storeManager;
+//    }
+    private  IPKStoreManager getPKStoreManager()
+    	    throws FirmaException
+    	  {
+    	    IPKStoreManager storeManager = null;
+    	    String firma = getPathCertificado();
+    	    String clave = getClaveCertificado();
+    	    try
+    	    {
+    	      if ((clave == null) || (clave.trim().isEmpty())) {
+    	        throw new FirmaException("Error al leer clave de firma electronica");
+    	      }
 
-        try {
-
-            if (clave == null || clave.trim().isEmpty()) {
-                throw new FirmaException("Error al leer clave de firma electronica");
-            }
-
-            if (!new File(firma).exists()) {
-                throw new FirmaException("No existe el recurso firma electronica");
-            }
-
-            KeyStore ks = KeyStore.getInstance("PKCS12");
-            try {
-                ks.load(new java.io.FileInputStream(firma), clave.toCharArray());
-            } catch (Exception e) {
-                throw new FirmaException("[ERROR] Las credenciales de las Firmas son Invalidas.");
-            }
-            storeManager = new KSStore(ks, new PassStoreKS(clave));
-            for (Enumeration<String> e = ks.aliases(); e.hasMoreElements();) {
-                String alias = e.nextElement();
-                System.out.println("@:" + alias);
-            }
-        } catch (Exception ex) {
-            throw new FirmaException("" + ex.getMessage());
-        }
-        return storeManager;
-    }
+    	      if (!(new File(firma).exists())) {
+    	        throw new FirmaException("No existe el recurso firma electronica");
+    	      }
+    	      final char[] PKCS12_PASSWORD = clave.toCharArray();
+    	      KeyStore ks = KeyStore.getInstance("PKCS12");
+    	      try {
+    	        ks.load(new FileInputStream(firma), PKCS12_PASSWORD);
+    	      } catch (Exception e) {
+    	        throw new FirmaException("[ERROR] Las credenciales de las Firmas son Invalidas.");
+    	      }
+    				
+    	         storeManager = new KSStore(ks, new IPassStoreKS() {
+    				public char[] getPassword(X509Certificate certificate, String alias) {
+    					return PKCS12_PASSWORD;
+    				}
+    			});
+    	      
+    	    }
+    	    catch (Exception ex) {
+    	      throw new FirmaException(ex.getMessage());
+    	    }
+    	    return storeManager;
+    	  }
 
     /**
      * <p>
@@ -317,18 +350,24 @@ public abstract class GenericXMLSignature {
      */
     private X509Certificate getFirstCertificate(
             final IPKStoreManager storeManager) throws FirmaException {
-        List<X509Certificate> certs = null;
+//        List<X509Certificate> certs = null;
+    	X509Certificate certificado = null;
         try {
-            certs = storeManager.getSignCertificates();
+        	for (X509Certificate cert : storeManager.getSignCertificates()) {
+        		if(cert.getKeyUsage()[0]) {
+        			certificado = cert;
+        		}
+        	}
         } catch (CertStoreException ex) {
             throw new FirmaException("Fallo obteniendo listado de certificados");
         }
-        if ((certs == null) || (certs.size() == 0)) {
-            throw new FirmaException("Lista de certificados vacía");
+//        if ((certs == null) || (certs.size() == 0)) {
+//            throw new FirmaException("Lista de certificados vacía");
+//        }
+        if(certificado == null) {
+        	throw new FirmaException("Lista de certificados vacía");
         }
-
-        X509Certificate certificate = certs.get(0);
-        return certificate;
+        return certificado;
     }
 
 }

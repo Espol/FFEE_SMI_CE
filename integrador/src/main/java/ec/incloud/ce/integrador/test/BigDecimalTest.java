@@ -20,7 +20,8 @@ public class BigDecimalTest {
         System.out.println("Suma : " + DosDecimales(bd));
     }
     
-    public static BigDecimal DosDecimales(BigDecimal numero) {
+    @SuppressWarnings("null")
+	public static BigDecimal DosDecimales(BigDecimal numero) {
         BigDecimal respuesta;
         if (numero != null || !numero.toString().isEmpty()) {
             respuesta = numero.setScale(2, RoundingMode.HALF_UP);

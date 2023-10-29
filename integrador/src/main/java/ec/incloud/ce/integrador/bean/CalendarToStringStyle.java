@@ -12,6 +12,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  *
  * @author Incloud Services S.A.C.
  */
+@SuppressWarnings("serial")
 public class CalendarToStringStyle extends ToStringStyle {
 
     public CalendarToStringStyle() {

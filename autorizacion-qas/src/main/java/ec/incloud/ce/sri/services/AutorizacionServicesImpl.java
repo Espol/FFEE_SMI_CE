@@ -23,7 +23,8 @@ public class AutorizacionServicesImpl implements AutorizacionServices {
 
     private static AutorizacionServices instance = null;
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final AutorizacionComprobantesOfflineService services = new AutorizacionComprobantesOfflineService();
+    private AutorizacionComprobantesOfflineService services = null;
+//    private final AutorizacionComprobantesOfflineService services = new AutorizacionComprobantesOfflineService();
     private int second = 15;
 
     private AutorizacionServicesImpl() {
@@ -49,6 +50,9 @@ public class AutorizacionServicesImpl implements AutorizacionServices {
     public RespuestaComprobante autorizarComprobante(String claveAcceso) throws AutorizacionException {
         RespuestaComprobante respuesta = null;
         try {
+        	if( services == null ) {
+        		services = new AutorizacionComprobantesOfflineService();
+        	}
         	AutorizacionComprobantesOffline autorizacionComprobantesOffline = services.getAutorizacionComprobantesOfflinePort();
         	Map<String, Object> requestContext = ((BindingProvider) autorizacionComprobantesOffline).getRequestContext();
         	requestContext.put("com.sun.xml.internal.ws.connect.timeout", this.second * 1000);

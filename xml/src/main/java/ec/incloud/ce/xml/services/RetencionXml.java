@@ -24,7 +24,8 @@ import org.apache.log4j.Logger;
  */
 final class RetencionXml implements XmlServices<ComprobanteRetencion> {
 
-    private static XmlServices instance;
+    @SuppressWarnings("rawtypes")
+	private static XmlServices instance;
     private final XStream xStream;
     private final Logger log = Logger.getLogger("integrador");
 
@@ -45,7 +46,8 @@ final class RetencionXml implements XmlServices<ComprobanteRetencion> {
         xStream.omitField(ComprobanteRetencion.class, "ds:Signature");
     }
 
-    public static XmlServices<ComprobanteRetencion> create() {
+    @SuppressWarnings("unchecked")
+	public static XmlServices<ComprobanteRetencion> create() {
         synchronized (RetencionXml.class) {
             if (instance == null) {
                 instance = new RetencionXml();
