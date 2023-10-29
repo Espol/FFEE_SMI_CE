@@ -11,6 +11,7 @@
         <module>firma</module>
         <module>xml</module>
         <module>pdf</module>
+<<<<<<< HEAD
         
 <!--		<module>recepcion-prd</module>-->
 <!--		<module>recepcion-prd-on</module>-->
@@ -22,6 +23,16 @@
         <module>autorizacion-qas</module> 
         <module>autorizacion-qas-on</module> 
         
+=======
+<!-- 		<module>recepcion-prd</module> -->
+<!-- 		<module>recepcion-prd-on</module> -->
+<!-- 		<module>autorizacion-prd</module> -->
+<!-- 		<module>autorizacion-prd-on</module> -->
+        <module>recepcion-qas</module>
+        <module>recepcion-qas-on</module>
+        <module>autorizacion-qas</module>
+        <module>autorizacion-qas-on</module>
+>>>>>>> 7441452bd688e394ab28aea9df35d3cc99017201
         <module>validacion</module>
         <module>sap</module>
         <module>notificacion</module>

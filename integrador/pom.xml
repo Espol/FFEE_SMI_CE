@@ -104,6 +104,17 @@
 		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>autorizacion-qas</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>autorizacion-qas-on</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>notificacion</artifactId>
 			<version>${project.version}</version>
 		</dependency>
