@@ -9,6 +9,7 @@ package ec.incloud.ce.firma.exception;
  *
  * @author Usuario
  */
+@SuppressWarnings("serial")
 public class FirmaException extends Exception{
     
     private final String mensaje;

@@ -40,7 +40,8 @@ public class XStreamAutorizacion {
 	    public HierarchicalStreamWriter createWriter(Writer out) {
 			return new PrettyPrintWriter(out) {
 			    boolean cdata = false;
-	                    @Override
+	                    @SuppressWarnings("rawtypes")
+						@Override
 			    public void startNode(String name, Class clazz){
 					super.startNode(name, clazz);
 					cdata = (name.equals("comprobante"));

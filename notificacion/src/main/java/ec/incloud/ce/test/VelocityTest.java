@@ -44,7 +44,8 @@ public class VelocityTest {
         System.out.println("" + w.toString());
     }
     
-    private void crearClase(){
+    @SuppressWarnings("unused")
+	private void crearClase(){
         class miClase{
             private int a = 0;
             private int b = 0;

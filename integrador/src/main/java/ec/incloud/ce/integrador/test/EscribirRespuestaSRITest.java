@@ -47,7 +47,8 @@ public class EscribirRespuestaSRITest {
 	    public HierarchicalStreamWriter createWriter(Writer out) {
 		return new PrettyPrintWriter(out) {
 		    boolean cdata = false;
-		    public void startNode(String name, Class clazz){
+		    @SuppressWarnings("rawtypes")
+			public void startNode(String name, Class clazz){
 			super.startNode(name, clazz);
 			cdata = (name.equals("comprobante"));
 		    }

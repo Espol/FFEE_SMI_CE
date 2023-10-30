@@ -9,6 +9,7 @@ package ec.incloud.ce.notificacion;
  *
  * @author Usuario
  */
+@SuppressWarnings("serial")
 public class MailException extends Exception{
 
     public MailException(String message) {

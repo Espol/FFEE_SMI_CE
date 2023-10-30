@@ -9,6 +9,7 @@ package ec.incloud.ce.validacion.exception;
  *
  * @author Joel Povis Ocaña
  */
+@SuppressWarnings("serial")
 public class ValidacionException extends Exception{
     private final String mensaje;
     

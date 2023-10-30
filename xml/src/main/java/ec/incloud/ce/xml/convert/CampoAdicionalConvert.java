@@ -27,7 +27,8 @@ public class CampoAdicionalConvert implements Converter {
 	
     private final Logger log = Logger.getLogger(this.getClass());
 
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext mc) {
         List<CampoAdicional> list = (ArrayList<CampoAdicional>) o;
         if (list != null) {
@@ -44,7 +45,8 @@ public class CampoAdicionalConvert implements Converter {
         }
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext uc) {
         List list = new ArrayList();
         for (; reader.hasMoreChildren(); reader.moveUp()) {
@@ -57,7 +59,8 @@ public class CampoAdicionalConvert implements Converter {
         return list;
     }
 
-    public boolean canConvert(Class type) {
+    @SuppressWarnings("rawtypes")
+	public boolean canConvert(Class type) {
         return ArrayList.class == type;
     }
 

@@ -80,14 +80,12 @@ public class EnvioAutorizacionThread implements Runnable {
                     StringBuilder msg = new StringBuilder();
                     AckSRI ack = new AckSRI();
                     ack.setClaveAccesoConsultada(respuesta.getClaveAccesoConsultada());
-                    
-                    Date fechaAutorizacion = null;
-                    
+                                        
                     int i=0;
                     for (ec.gob.sri.comprobantes.ws.on.aut.Autorizacion x : respuesta.getAutorizaciones().getAutorizacion()) {
                         log.info("[Autorizacion] Estado de Autorizacion: " + MessageFormat.format("Documento: {0}, Estado: {1}", documento.getNumeroSap(), x.getEstado()));
                         
-                        fechaAutorizacion = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(x.getFechaAutorizacion()));
+                    //    fechaAutorizacion = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(x.getFechaAutorizacion()));
                         
                         ack.setEstado(x.getEstado());
                         ack.setNumeroAutorizacion(x.getNumeroAutorizacion());

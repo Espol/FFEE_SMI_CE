@@ -41,10 +41,12 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 class FacturaReembolsoPdfServices implements PdfServices<FacturaReembolso> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (FacturaReembolsoPdfServices.class) {
             if (instance == null) {
                 instance = new FacturaReembolsoPdfServices();

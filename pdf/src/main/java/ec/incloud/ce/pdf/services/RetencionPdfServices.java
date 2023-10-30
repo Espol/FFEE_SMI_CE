@@ -38,10 +38,12 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class RetencionPdfServices implements PdfServices<ComprobanteRetencion> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
     
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (RetencionPdfServices.class) {
             if (instance == null) {
                 instance = new RetencionPdfServices();

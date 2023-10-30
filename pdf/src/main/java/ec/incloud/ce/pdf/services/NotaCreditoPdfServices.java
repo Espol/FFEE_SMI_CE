@@ -39,10 +39,12 @@ import org.apache.log4j.Logger;
  */
 public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (NotaCreditoPdfServices.class) {
             if (instance == null) {
                 instance = new NotaCreditoPdfServices();
@@ -51,7 +53,8 @@ public class NotaCreditoPdfServices implements PdfServices<NotaCredito> {
         }
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     public void generarPdf(NotaCredito comprobante, String pathAbsolute, String numeroAutorizacion, String fechaAutorizacion, String []sociedad, String []documento, String porcentajeIvaDinamico) {
 
         JasperReport jasperReport = null;

@@ -15,9 +15,10 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
+@SuppressWarnings("restriction")
 public class FechaConvert implements Converter{
     
-    public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext mc) {
+	public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext mc) {
     	
         if(o instanceof XMLGregorianCalendarImpl){
             XMLGregorianCalendarImpl xgc = (XMLGregorianCalendarImpl) o;
@@ -34,20 +35,15 @@ public class FechaConvert implements Converter{
 
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext uc) {
-//        List list = new ArrayList();
-//        for (; reader.hasMoreChildren(); reader.moveUp()) {
-//            reader.moveDown();
-//            CampoAdicional campo = new CampoAdicional();
-//            campo.setNombre(reader.getAttribute("fechaAutorizacion"));
-//            campo.setValue(reader.getValue());
-//            list.add(campo);
-//        }
-//        return list;
         return null;
     }
-    
-    public boolean canConvert(Class type) {
-        return XMLGregorianCalendarImpl.class == type;
-    }
+
+
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean canConvert(Class type) {
+		return false;
+	}
     
 }

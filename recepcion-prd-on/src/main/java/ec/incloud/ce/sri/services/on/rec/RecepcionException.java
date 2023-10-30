@@ -9,6 +9,7 @@ package ec.incloud.ce.sri.services.on.rec;
  *
  * @author Incloud Services S.A.C.
  */
+@SuppressWarnings("serial")
 public class RecepcionException extends Exception {
 
     private String code;

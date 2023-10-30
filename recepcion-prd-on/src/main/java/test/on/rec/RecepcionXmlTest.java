@@ -39,7 +39,7 @@ public class RecepcionXmlTest {
         RespuestaSolicitud.Comprobantes lstComprobante = solicitud.getComprobantes();
         if (lstComprobante != null && lstComprobante.getComprobante() != null) {
             for (Comprobante x : lstComprobante.getComprobante()) {
-                String claveAcceso = x.getClaveAcceso();
+//                String claveAcceso = x.getClaveAcceso();
                 Comprobante.Mensajes mensajes = x.getMensajes();
 
                 if (mensajes.getMensaje() != null) {

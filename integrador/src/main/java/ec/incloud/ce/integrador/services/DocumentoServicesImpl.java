@@ -28,7 +28,6 @@ import ec.incloud.ce.integrador.bean.Usuario;
 import ec.incloud.ce.integrador.exception.IntegradorException;
 import ec.incloud.ce.integrador.mapper.DocumentoMapper;
 import ec.incloud.ce.integrador.mapper.ImpuestoMapper;
-import ec.incloud.ce.integrador.mapper.SociedadMapper;
 import ec.incloud.ce.integrador.util.DestinoDocumentoEnum;
 import ec.incloud.ce.integrador.util.EstadoEnvioEnum;
 import ec.incloud.ce.integrador.util.MailSettingUtil;
@@ -136,7 +135,7 @@ class DocumentoServicesImpl implements DocumentoServices {
     	return "";
     }
     
-    private void getImpuestoIvaByDocumento(Documento documento, XmlServices xmlServices){
+    private void getImpuestoIvaByDocumento(Documento documento, XmlServices<?> xmlServices){
     	
     	Object comprobante;
     	
@@ -205,12 +204,12 @@ class DocumentoServicesImpl implements DocumentoServices {
 	            break;
 		}
 		} catch (XmlException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     public boolean generarPdf(Documento documento, AckSRI ackAutorizacion,Usuario usuario) throws IntegradorException {
         @SuppressWarnings("rawtypes")
 		XmlServices xmlServices = null;
@@ -528,7 +527,7 @@ class DocumentoServicesImpl implements DocumentoServices {
         MailSetting ms = MailSettingUtil.getInstance()
                         .toObject(documento.getSociedad().getMailSettings());
        
-        List<String> adjunto = new ArrayList();
+        List<String> adjunto = new ArrayList<String>();
         adjunto.add(documento.getXml());
         adjunto.add(documento.getPdf());
         
@@ -562,7 +561,7 @@ class DocumentoServicesImpl implements DocumentoServices {
         MailSetting ms = MailSettingUtil.getInstance()
                         .toObject(documento.getSociedad().getMailSettings());
        
-        List<String> adjunto = new ArrayList();
+        List<String> adjunto = new ArrayList<String>();
         adjunto.add(documento.getXml());
         adjunto.add(documento.getPdf());
         
@@ -604,7 +603,7 @@ class DocumentoServicesImpl implements DocumentoServices {
         
         String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
         
-        List<String> adjunto = new ArrayList();
+        List<String> adjunto = new ArrayList<String>();
         adjunto.add(documento.getXml());
         return notifica.enviarCorreo(
         							sociedad,
@@ -652,7 +651,7 @@ class DocumentoServicesImpl implements DocumentoServices {
             
             String sociedad [] = { documento.getSociedad().getRuc(), documento.getSociedad().getRazonSocial() };
             
-            List<String> adjunto = new ArrayList();
+            List<String> adjunto = new ArrayList<String>();
             adjunto.add(documento.getXml());
             
             return notifica.enviarCorreo(

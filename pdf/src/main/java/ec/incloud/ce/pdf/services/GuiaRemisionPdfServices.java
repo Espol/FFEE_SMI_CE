@@ -36,10 +36,12 @@ import org.apache.log4j.Logger;
  */
 public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (GuiaRemisionPdfServices.class) {
             if (instance == null) {
                 instance = new GuiaRemisionPdfServices();
@@ -48,7 +50,8 @@ public class GuiaRemisionPdfServices implements PdfServices<GuiaRemision> {
         }
     }
     
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public void generarPdf(GuiaRemision comprobante, String pathAbsolute, String numeroAutorizacion, String fechaAutorizacion, String [] sociedad, String [] documento, String porcentajeIvaDinamico) {
     	
         JasperReport jasperReport=null;

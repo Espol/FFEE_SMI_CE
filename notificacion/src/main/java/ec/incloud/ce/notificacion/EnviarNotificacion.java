@@ -34,7 +34,7 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
+//        	String nomComercial = sociedad[1];
         	
         	String pathHtmlNotificacion = TemplateNotificacion.NO_AUTORIZADO + rucEmisor + ".html";
             EnviarMail mail = new EnviarMail();
@@ -69,10 +69,10 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
-        	String userNamePortal = sociedad[2];
-        	String passwordPortal = sociedad[3];
-        	String flag = sociedad[4];
+//        	String nomComercial = sociedad[1];
+//        	String userNamePortal = sociedad[2];
+//        	String passwordPortal = sociedad[3];
+//        	String flag = sociedad[4];
         	
         	String pathHtmlNotificacion = TemplateNotificacion.AUTORIZADO_CONFIRMACION + rucEmisor + ".html";
             EnviarMail mail = new EnviarMail();
@@ -111,10 +111,10 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
-        	String userNamePortal = sociedad[2];
-        	String passwordPortal = sociedad[3];
-        	String flag = sociedad[4];
+//        	String nomComercial = sociedad[1];
+//        	String userNamePortal = sociedad[2];
+//        	String passwordPortal = sociedad[3];
+//        	String flag = sociedad[4];
         	
         	String pathHtmlNotificacion = TemplateNotificacion.AUTORIZADO + rucEmisor + ".html";
             EnviarMail mail = new EnviarMail();
@@ -154,9 +154,9 @@ public enum EnviarNotificacion implements Notificacion{
         	
         	String rucEmisor = sociedad[0];
         	String nomComercial = sociedad[1];
-        	String userNamePortal = sociedad[2];
-        	String passwordPortal = sociedad[3];
-        	String flag = sociedad[4];
+//        	String userNamePortal = sociedad[2];
+//        	String passwordPortal = sociedad[3];
+//        	String flag = sociedad[4];
         	
         	String pathHtmlNotificacion = TemplateNotificacion.AUTORIZADO + rucEmisor + ".html";;
             EnviarMail mail = new EnviarMail();
@@ -190,7 +190,7 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
+//        	String nomComercial = sociedad[1];
         	String timeAvailableCorrecion = sociedad[2];
         	String pathHtmlNotificacion = TemplateNotificacion.NOTIFICACION_RECHAZADO + rucEmisor + ".html";
             EnviarMail mail = new EnviarMail();
@@ -226,7 +226,7 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
+//        	String nomComercial = sociedad[1];
         	String pathHtmlNotificacion = TemplateNotificacion.RECHAZADO + rucEmisor + ".html";
             EnviarMail mail = new EnviarMail();
             VelocityContext context = new VelocityContext();
@@ -259,7 +259,7 @@ public enum EnviarNotificacion implements Notificacion{
                                  List<String> archivoAdjunto) {
         	
         	String rucEmisor = sociedad[0];
-        	String nomComercial = sociedad[1];
+//        	String nomComercial = sociedad[1];
         	String pathHtmlNotificacion = TemplateNotificacion.INCONSISTENTE + rucEmisor + ".html";;
             EnviarMail mail = new EnviarMail();
             VelocityContext context = new VelocityContext();

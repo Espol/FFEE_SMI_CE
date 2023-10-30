@@ -118,7 +118,8 @@ public enum Util {
         }
     }
     
-    public ComprobantePortal getDataPortal(String tipoDocumento, int subTipoDocumento, String beanXml) throws XmlException{    
+    @SuppressWarnings("rawtypes")
+	public ComprobantePortal getDataPortal(String tipoDocumento, int subTipoDocumento, String beanXml) throws XmlException{    
 	    XmlServices xmlServices = null;
 	    ComprobantePortal comprobantePortal=new ComprobantePortal();
 	    switch (tipoDocumento) {

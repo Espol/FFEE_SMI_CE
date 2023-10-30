@@ -20,7 +20,8 @@ import java.util.List;
  */
 public class DetAdicionalConvert implements Converter {
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void marshal(Object o, HierarchicalStreamWriter w, MarshallingContext mc) {
         List<DetAdicional> list = (List<DetAdicional>) o;
         if (list != null) {
@@ -33,7 +34,8 @@ public class DetAdicionalConvert implements Converter {
         }
     }
 
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext uc) {
         List list = new ArrayList();
         for (; reader.hasMoreChildren(); reader.moveUp()) {
@@ -46,7 +48,8 @@ public class DetAdicionalConvert implements Converter {
         return list;
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public boolean canConvert(Class type) {
         return ArrayList.class == type;
     }

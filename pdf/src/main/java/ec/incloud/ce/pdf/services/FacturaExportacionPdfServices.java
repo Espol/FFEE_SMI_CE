@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.util.SystemPropertyUtils;
 
 import ec.incloud.ce.bean.common.CampoAdicional;
 import ec.incloud.ce.bean.common.Impuesto;
@@ -40,10 +39,12 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 class FacturaExportacionPdfServices implements PdfServices<FacturaExportacion> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (FacturaExportacionPdfServices.class) {
             if (instance == null) {
                 instance = new FacturaExportacionPdfServices();

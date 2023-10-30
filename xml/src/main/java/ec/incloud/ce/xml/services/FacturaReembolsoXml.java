@@ -34,7 +34,8 @@ import ec.incloud.ce.xml.exception.XmlException;
  */
 public final class FacturaReembolsoXml implements XmlServices<FacturaReembolso> {
 
-    private static XmlServices instance;
+    @SuppressWarnings("rawtypes")
+	private static XmlServices instance;
     private final XStream xStream;
     private final Logger log = Logger.getLogger("integrador");
 
@@ -59,7 +60,8 @@ public final class FacturaReembolsoXml implements XmlServices<FacturaReembolso> 
         xStream.omitField(FacturaReembolso.class, "ds:Signature");
     }
 
-    public static XmlServices<FacturaReembolso> create() {
+    @SuppressWarnings("unchecked")
+	public static XmlServices<FacturaReembolso> create() {
         synchronized (FacturaReembolsoXml.class) {
             if (instance == null) {
                 instance = new FacturaReembolsoXml();

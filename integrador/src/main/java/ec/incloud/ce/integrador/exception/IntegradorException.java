@@ -9,6 +9,7 @@ package ec.incloud.ce.integrador.exception;
  *
  * @author Incloud Services S.A.C.
  */
+@SuppressWarnings("serial")
 public class IntegradorException extends Exception {
 
     private String code;

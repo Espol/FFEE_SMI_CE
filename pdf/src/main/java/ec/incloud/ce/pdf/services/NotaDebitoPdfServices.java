@@ -38,10 +38,12 @@ import org.apache.log4j.Logger;
  */
 public class NotaDebitoPdfServices implements PdfServices<NotaDebito> {
 
-    private static PdfServices instance;
+    @SuppressWarnings("rawtypes")
+	private static PdfServices instance;
     private final Logger log = Logger.getLogger(PdfServices.class);
 
-    public static PdfServices create() {
+    @SuppressWarnings("rawtypes")
+	public static PdfServices create() {
         synchronized (NotaDebitoPdfServices.class) {
             if (instance == null) {
                 instance = new NotaDebitoPdfServices();

@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 eclipse.preferences.version=1
 org.eclipse.jdt.apt.aptEnabled=false
+=======
+eclipse.preferences.version=1
+org.eclipse.jdt.apt.aptEnabled=false
+>>>>>>> 93603c36689dfc83e5b70120ae5b211845382986

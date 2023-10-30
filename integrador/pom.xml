@@ -30,6 +30,7 @@
 			<artifactId>pdf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+<<<<<<< HEAD
 		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>${project.groupId}</groupId> -->
@@ -54,6 +55,31 @@
 			<version>${project.version}</version>
 		</dependency>
 		<!-- FIN PRUEBAS -->
+=======
+		
+<!--		<dependency>-->
+<!--			<groupId>${project.groupId}</groupId>-->
+<!--			<artifactId>recepcion-prd</artifactId>-->
+<!--			<version>${project.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>${project.groupId}</groupId>-->
+<!--			<artifactId>recepcion-prd-on</artifactId>-->
+<!--			<version>${project.version}</version>-->
+<!--		</dependency>-->
+		
+ 		<dependency> 
+ 			<groupId>${project.groupId}</groupId> 
+ 			<artifactId>recepcion-qas</artifactId> 
+ 			<version>${project.version}</version> 
+ 		</dependency> 
+ 		<dependency> 
+ 			<groupId>${project.groupId}</groupId> 
+ 			<artifactId>recepcion-qas-on</artifactId> 
+ 			<version>${project.version}</version> 
+ 		</dependency>
+ 		 
+>>>>>>> 93603c36689dfc83e5b70120ae5b211845382986
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>validacion</artifactId>
@@ -80,6 +106,7 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+<<<<<<< HEAD
 		<!-- PRODUCCION -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>${project.groupId}</groupId> -->
@@ -93,6 +120,31 @@
 <!-- 		</dependency> -->
 		<!-- FIN PRODUCCION -->
 		<!-- PRUEBAS -->
+=======
+		
+<!--		<dependency>-->
+<!--			<groupId>${project.groupId}</groupId>-->
+<!--			<artifactId>autorizacion-prd</artifactId>-->
+<!--			<version>${project.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>${project.groupId}</groupId>-->
+<!--			<artifactId>autorizacion-prd-on</artifactId>-->
+<!--			<version>${project.version}</version>-->
+<!--		</dependency>-->
+		
+ 		<dependency> 
+ 			<groupId>${project.groupId}</groupId> 
+ 			<artifactId>autorizacion-qas</artifactId> 
+ 			<version>${project.version}</version> 
+ 		</dependency> 
+ 		<dependency> 
+ 			<groupId>${project.groupId}</groupId> 
+ 			<artifactId>autorizacion-qas-on</artifactId> 
+ 			<version>${project.version}</version> 
+ 		</dependency> 
+		
+>>>>>>> 93603c36689dfc83e5b70120ae5b211845382986
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>autorizacion-qas</artifactId>

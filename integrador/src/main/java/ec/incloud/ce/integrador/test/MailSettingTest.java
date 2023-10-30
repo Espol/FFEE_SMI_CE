@@ -27,6 +27,5 @@ public class MailSettingTest {
         String xml = "<mailSetting><host>mail.hivimar.com</host><port>587</port><user>hfe@hivimar.com</user><password>hivms33$</password></mailSetting>";
         
         mail = util.toObject(xml);
-        int a = 0;
     }
 }

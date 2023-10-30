@@ -9,6 +9,7 @@ package ec.incloud.ce.xml.exception;
  *
  * @author Joel Povis Ocaña
  */
+@SuppressWarnings("serial")
 public class XmlException extends Exception {
 
     public XmlException(String message) {
