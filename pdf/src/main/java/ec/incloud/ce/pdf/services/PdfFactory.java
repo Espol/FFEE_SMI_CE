@@ -25,20 +25,6 @@ public class PdfFactory {
         return FacturaPdfServices.create();
     }
 
-<<<<<<< HEAD
-    @SuppressWarnings("unchecked")
-	public static PdfServices<FacturaExportacion> createPdfFacturaExportacionServices() {
-		return FacturaExportacionPdfServices.create();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static PdfServices<FacturaReembolso> createPdfFacturaReembolsoServices() {
-		return FacturaReembolsoPdfServices.create();
-	}
-
-	@SuppressWarnings("unchecked")
-    public static PdfServices<GuiaRemision> createPdfGuiaRemisionServices() {
-=======
 	@SuppressWarnings("rawtypes")
 	public static PdfServices createPdfFacturaExportacionServices() {
 		return FacturaExportacionPdfServices.create();
@@ -51,25 +37,16 @@ public class PdfFactory {
 
     @SuppressWarnings("unchecked")
 	public static PdfServices<GuiaRemision> createPdfGuiaRemisionServices() {
->>>>>>> 93603c36689dfc83e5b70120ae5b211845382986
         return GuiaRemisionPdfServices.create();
     }
 
     @SuppressWarnings("unchecked")
-<<<<<<< HEAD
-    public static PdfServices<NotaCredito> createPdfNotaCreditoServices() {
-=======
 	public static PdfServices<NotaCredito> createPdfNotaCreditoServices() {
->>>>>>> 93603c36689dfc83e5b70120ae5b211845382986
         return NotaCreditoPdfServices.create();
     }
 
     @SuppressWarnings("unchecked")
-<<<<<<< HEAD
-    public static PdfServices<NotaDebito> createPdfNotaDebitoServices() {
-=======
 	public static PdfServices<NotaDebito> createPdfNotaDebitoServices() {
->>>>>>> 93603c36689dfc83e5b70120ae5b211845382986
         return NotaDebitoPdfServices.create();
     }
 
